@@ -55,7 +55,7 @@ In general we prefer horizontal, but can be flexible.
 
 Heads up. Smile, open to others' ideas, support eachother. End goal in mind!
 
-Have fun, 
+Have fun, enjoy the process!
 
 ## Trip Buddy 
 
@@ -84,6 +84,7 @@ Itinerary Page - create / manage / add Attractions and Accomodation
 
 ### What tech will you be using? Is there anything you need to research?
 
+APIs - sourcing attractions
 
 
 ### GitFlow. How will you arrange your work?

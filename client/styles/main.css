@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #1a5068;
+  text-align: center;
+}
+
+footer p {
+  display: inline-block;
+  padding-top: 10px;
+  margin: 0 10px;
+  color: white;
+}
+
+footer a:link,
+footer a:visited {
+  color: #afc2d5;
+}
+
+footer a:hover {
+  color: white;
+}
+
+header {
+  background-image: url('../images/forest-header.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: #1a5068;
+  width: 100%;
+  color: white;
+  height: 100px;
+  text-align: center;
+}
+
+nav {
+  background-color: grey;
+  width: 100%;
+  padding: 0.25rem 0 0.25rem 0;
+}
