@@ -22,24 +22,6 @@ export default function Explorer() {
   return (
     <>
       <LocationGrid data={data} />
-
-      {/* <div className="location-grid">
-        {data?.map((place) => (
-          <div key={place.id} className="location-card">
-            <img
-              src={place.imageUrl}
-              alt={place.name}
-              className="location-image"
-            ></img>
-            <div className="location-overlay">
-              <div className="location-info">
-                <h3>{place.name}</h3>
-                <p>{place.userRating}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div> */}
     </>
   )
 }
