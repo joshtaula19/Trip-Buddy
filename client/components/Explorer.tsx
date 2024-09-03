@@ -1,5 +1,6 @@
 import useExplore from '../hooks/use-explore.ts'
 import LoadingIndicator from './LoadingIndicator'
+import LocationGrid from './LocationGrid.tsx'
 
 export default function Explorer() {
   const { isPending, isError, data } = useExplore()
@@ -18,11 +19,11 @@ export default function Explorer() {
     return <>Oops</>
   }
 
-  // console.log(' I got the data', data)
-
   return (
     <>
-      <div className="location-grid">
+      <LocationGrid data={data} />
+
+      {/* <div className="location-grid">
         {data?.map((place) => (
           <div key={place.id} className="location-card">
             <img
@@ -38,7 +39,7 @@ export default function Explorer() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   )
 }
