@@ -6,7 +6,7 @@
 
 CH - Feeling ok. Excited to pull something together with a bit more time. Motivation has been hard the last few weeks with baby being more demanding. Looking forward to finishing strong!
 Josh - Struggling with motivation, looking forward to finish, hav ing more time to complete
-Lei - 
+Lei - I am excited. I was expecting more team members than group porject in fianl project.
 Joy - struggling a bit with motivation too. 
 
 ### Wellbeing (when I'm stressed ... I need...) (general needs eg. kids, illness, sleep etc)
