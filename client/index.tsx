@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
      * TODO: replace domain, clientId, and audience
      */
     <Auth0Provider
-      domain=""
-      clientId=""
+      domain="dev-ic4gl11h2uldtsf6.au.auth0.com"
+      clientId="19btqKkcZ0hidN2BUSlYRcMIYnxUfRp5"
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: '',
+        audience: 'https://tripbuddy/api',
       }}
     >
       <QueryClientProvider client={queryClient}>
