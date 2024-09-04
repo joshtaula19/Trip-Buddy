@@ -21,6 +21,7 @@ export default function Explorer() {
 
   return (
     <>
+      <h2>Explore:</h2>
       <LocationGrid data={data} />
     </>
   )

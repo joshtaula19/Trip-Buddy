@@ -47,7 +47,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: stretch;
 }
 
@@ -94,6 +94,19 @@ nav {
 .location-info {
   color: white;
   text-align: center;
+}
+
+.location-info button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.location-info option {
+  color: black;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .location-info h3 {
