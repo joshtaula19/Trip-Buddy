@@ -80,7 +80,7 @@ router.delete('/trips/:tripId/attractions/:attractionId', async (req, res) => {
       res.status(404).json({ error: 'Trip-attraction relationship not found' })
     }
   } catch (error) {
-    console.error('Error deleting trip-attraction relationship:', error)
+       console.error('Error deleting trip-attraction relationship:', error)
     res.status(500).json({ error: 'Failed to delete trip-attraction relationship' })
   }
 })
