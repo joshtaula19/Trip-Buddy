@@ -1,5 +1,3 @@
-// Filename: 20240903234246_attractions.js
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }

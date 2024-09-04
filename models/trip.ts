@@ -1,5 +1,4 @@
 export interface Trip {
-  id: number
   trip_name: string
   destination: string
   start_date: string // format: 'YYYY-MM-DD'
@@ -9,3 +8,6 @@ export interface Trip {
   updated_at?: Date
 }
 
+export interface TripData extends Trip {
+  id: number
+}
