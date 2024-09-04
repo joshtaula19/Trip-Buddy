@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import "../styles/searchBar.css"
 export default function  SearchBar() {
   const [searchType, setSearchType] = useState('accommodation');
