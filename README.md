@@ -5,18 +5,33 @@
 ### Check in (how are you? How do you feel about working on this larger project?)
 
 CH - Feeling ok. Excited to pull something together with a bit more time. Motivation has been hard the last few weeks with baby being more demanding. Looking forward to finishing strong!
+Josh - Struggling with motivation, looking forward to finish, hav ing more time to complete
+Lei - I am excited. I was expecting more team members than group porject in fianl project.
+Joy - struggling a bit with motivation too. 
 
 ### Wellbeing (when I'm stressed ... I need...) (general needs eg. kids, illness, sleep etc)
 
 CH - Sometimes I need to just duck off to sort things out with kids. My availability is sporadic. 
+All - sometimes too many people solving problems. Sometimes stress eating, or napping!
 
 ### Expectation setting and agreements (what do we each want out of this time, what hours will we keep, what do we do when conflict arises, how will we communicate, especially what hours work will happen over the weekend)
 
-CH - Looking forward to finishing strong and making a great product. Hard to forecaset my timing availability, but during the day, and week nights. Weekends are harder
+CH - Looking forward to finishing strong and making a great product. Hard to forecaset my timing availability, but during the day, and week nights. Weekends are harder.
+
+
+Conflict Resolution Plan - 
+1. Address the issues, not attack the person
+2. Be open to other peoples points of view / perspective
+3. Communicate respectully, listen actively, listen and loop
+4. Notice signs of conflict, eg. decreased productivity, communication breakdowns, increased tension. 
+5. Identify root cause of conflict. 
+6. Schedule meetings times, agree roles
+
 
 ### How will you make decisions together? How will you handle conflict?
 
 CH - Hoping to take some direction from Product Owner about what features they are looking for. 
+All - Agree on concensus, different points of view, joint decision making. 
 
 ### How will you, individually and as a team, get the help you need both technically and non-technically?
 
@@ -32,12 +47,15 @@ CH - up to the individual I think. Ask yourself - do I need to be here, or am I 
 
 ### How will we work (what roles and what agile rituals will we use etc)
 
-CH - Lessons from earlier projects! 1) Start early! 2) Merge regularly, branches working before merging into develop. 3) Chat only on text channel, not voice channel. 4) Prefer to work horizonally (1 person all CSS or all backend etc.) as this seems to help with separation of duties / files / merge conflicts. 
+CH - Lessons from earlier projects! 1) Start early! 2) Merge regularly, branches working before merging into develop. 3) Chat only on text channel, not voice channel. 4) I prefer to work horizonally (1 person all CSS or all backend etc.) as this seems to help with separation of duties / files / merge conflicts. 
+
+In general we prefer horizontal, but can be flexible. 
 
 ### How will you survive (Will you eat together? How will you break the tension? What is your fun times plan?)
 
-CH - Heads up. Smile, open to others' ideas, support eachother. End goal in mind!
+Heads up. Smile, open to others' ideas, support eachother. End goal in mind!
 
+Have fun, enjoy the process!
 
 ## Trip Buddy 
 
@@ -49,10 +67,24 @@ CH - Heads up. Smile, open to others' ideas, support eachother. End goal in mind
 
 ### What is your MVP? How much work do you think it will take to achieve it?
 
+Travel planner
+- Use authentication
+- Trip Management Section - create / manage / add location
+- Stretch - being able to share itinerary with other users. 
+- API - fetch and display accomodation booking / activities
+
+STRETCH - Flight Planning
+
+Components
+Home Page / Dashboard - Existing itineraries + Click to add new Attractions
+Attractions Search Page - incl. food, sightseeing, theme parks etc. 
+Accomodation Search Page 
+Itinerary Page - create / manage / add Attractions and Accomodation
 
 
 ### What tech will you be using? Is there anything you need to research?
 
+APIs - sourcing attractions
 
 
 ### GitFlow. How will you arrange your work?
@@ -79,7 +111,7 @@ CH - Have setup at bottom of existing MIRO board https://miro.com/app/board/uXjV
 
 CH - Just putting some initial thoughts down:
 
-- Users (multiple) have Trips (multiple) ie. One TripID could be edited by multiple users? (share with friends)
+- Users ( STRETCH multiple) have Trips ( multiple) ie. One TripID could be edited by multiple users? (share with friends)
 - Trips have (multiple) Places (restaurants, sightseeing, hotels )
 
 So the tables would be: 
