@@ -11,7 +11,7 @@ export default function Header() {
         <User />
         <div>
           {!isAuthenticated ? (
-            <button onClick={() => loginWithRedirect()}>Log In</button>
+            <button onClick={() => loginWithRedirect()}>Login</button>
           ) : (
             <>
               <br></br>

@@ -7,15 +7,14 @@ export default function User() {
   if (!isAuthenticated || !user) {
     return (
       <>
-        <h2>User</h2>
-        <p>Please log in to view user information.</p>
+        <div className="credentials"></div>
       </>
     )
   }
 
   return (
     <>
-      <div>
+      <div className="credentials">
         <img
           src={user.picture}
           alt={user.name}
