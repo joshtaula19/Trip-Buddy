@@ -1,5 +1,6 @@
 import express from 'express'
 // import request from 'superagent'
+import request from 'superagent'
 
 const router = express.Router()
 
@@ -86,23 +87,46 @@ const attractions = [
   },
 ]
 
+// Fetch all attractions
 router.get('/', async (req, res) => {
   try {
-    // const response = await request.get(`https://example-api.com/attractions`)
-    res.json(attractions)
+    const apiKey = '5ae2e3f221c38a28845f05b606a01c9087f952690f7d10d4da04b030'
+    const response = await request
+      .get('https://api.opentripmap.com/0.1/en/places/autosuggest')
+      .query({
+        // Example parameters; adjust as needed
+        apikey: apiKey,
+      })
+
+    res.json(response.body)
   } catch (error) {
+    console.error('Error fetching attractions:', error)
     res.status(500).json({ error: 'Failed to fetch attraction data' })
+    res.json(attractions)
   }
 })
 
 // Fetch attraction details by ID from the external API
 router.get('/:id', async (req, res) => {
-  // const { id } = req.params;
+  const { id } = req.params
   try {
-    // const response = await request.get(`https://example-api.com/attractions/${id}`)
-    res.json(attractions[1])
+    const response = await request
+      .get(`https://api.opentripmap.com/0.1/en/places/xid/${id}`)
+      .query({
+        apikey: process.env.OPENTRIPMAP_API_KEY,
+      })
+
+    res.json(response.body) // Use response.body to get the data
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch attraction data' })
+    console.error('Error fetching attraction details:', error)
+    const attraction = attractions.find(
+      (attraction) => attraction.id === parseInt(id),
+    )
+    if (attraction) {
+      res.json(attraction)
+    } else {
+      res.status(404).json({ error: 'Attraction not found' })
+    }
   }
 })
 
