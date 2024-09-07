@@ -1,27 +1,22 @@
 import request from 'superagent'
+import { SearchData } from '../../models/search'
 
 const rootUrl = '/api/v1'
 
-// Search function
-export async function Search(props: { searchType: string; date: string }) {
-  try {
-    let res
-    if (props.searchType === 'accommodation') {
-      // Adjust the query parameters as needed
-      res = await request
-        .get(`${rootUrl}/accommodation`)
-        .query({ start_date: props.date })
-    } else if (props.searchType === 'attraction') {
-      // Adjust the query parameters as needed
-      res = await request
-        .get(`${rootUrl}/attraction`)
-        .query({ start_date: props.date })
-    } else {
-      throw new Error('Invalid search type')
+export async function Search(search: SearchData) {
+  if (search.numOfGuests) {
+    try {
+      const res = await request.get(rootUrl + '/accommodation').send(search) //need more data in .send()
+      return res.body
+    } catch (error) {
+      throw new Error('Sorry,can not find anything')
     }
-    return res.body
-  } catch (error) {
-    console.error('Error performing search:', error)
-    throw error // Re-throw the error to handle it in the calling code
+  } else {
+    try {
+      const res = await request.get(rootUrl + '/attractions').send(search) //need more data in .send()
+      return res.body
+    } catch (error) {
+      throw new Error('Sorry,can not find anything')
+    }
   }
 }
