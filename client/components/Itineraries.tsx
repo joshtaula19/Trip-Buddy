@@ -1,9 +1,13 @@
 import LocationGrid from './LocationGrid'
 import { useState } from 'react'
-import { useAddTrips } from '../hooks/useTrip'
+import useTrips from '../hooks/useTrip'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function Itineraries() {
   //Placeholder Data
+  const { user } = useAuth0()
+
+  const trips = useTrips()
 
   const [input, setInput] = useState(false)
   const [tripName, setTripName] = useState('')
@@ -23,12 +27,11 @@ export default function Itineraries() {
   const handleAddTrip = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     try {
-      await useAddTrips.mutateAsync({ trip_name: tripName })({
-        trip_name: tripName,
-      })
+      trips.add.mutate({ trip_name: tripName, Auth0Sub: user.sub })
     } catch (error) {
       console.error('Error adding trip:', error)
     }
+
     setTripName('')
     setInput(false)
   }
@@ -111,7 +114,7 @@ export default function Itineraries() {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h2>Itineraries</h2>
+        <h2>Trips:</h2>
         <button onClick={handleAddInput}>➕</button>
 
         {input && (
