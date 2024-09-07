@@ -1,7 +1,40 @@
 import LocationGrid from './LocationGrid'
+import { useState } from 'react'
+import useTrips from '../hooks/useTrip'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function Itineraries() {
   //Placeholder Data
+  const { user } = useAuth0()
+
+  const trips = useTrips()
+
+  const [input, setInput] = useState(false)
+  const [tripName, setTripName] = useState('')
+
+  function handleAddInput() {
+    setInput(!input)
+    // console.log(input)
+  }
+
+  function handleChangeTripName(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void {
+    setTripName(event.target.value)
+    // console.log(tripName)
+  }
+
+  const handleAddTrip = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    try {
+      trips.add.mutate({ trip_name: tripName, Auth0Sub: user.sub })
+    } catch (error) {
+      console.error('Error adding trip:', error)
+    }
+
+    setTripName('')
+    setInput(false)
+  }
 
   // customs hooks here....
   const placesData = [
@@ -80,8 +113,23 @@ export default function Itineraries() {
 
   return (
     <>
-      <h2>Itineraries</h2>
-      {placesData.map((destinations, index) =>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <h2>Trips:</h2>
+        <button onClick={handleAddInput}>➕</button>
+
+        {input && (
+          <form>
+            <input
+              type="text"
+              placeholder="Trip name..."
+              value={tripName}
+              onChange={handleChangeTripName}
+            />
+            <button onClick={handleAddTrip}>Add</button>
+          </form>
+        )}
+      </div>
+      {placesData.map((destinations) =>
         Object.keys(destinations).map((location) => (
           <div key={location}>
             <h3>{location}</h3>

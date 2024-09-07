@@ -23,13 +23,14 @@ router.get('/:id', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch trip' })
   }
-});
+})
 
 // Add a new trip
 router.post('/', async (req, res) => {
-  const { trip_name, destination, start_date, end_date, notes } = req.body
+  const { trip_name, Auth0Sub } = req.body
+  // console.log('trip.ts trip_name, Auth0Sub', trip_name, Auth0Sub)
   try {
-    const newTrip = await db.addTrip({ trip_name, destination, start_date, end_date, notes })
+    const newTrip = await db.addTrip(trip_name, Auth0Sub)
     res.status(201).json(newTrip)
   } catch (error) {
     res.status(500).json({ error: 'Failed to add trip' })
