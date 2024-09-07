@@ -6,7 +6,7 @@ export function useSearch(search:SearchData) {
   //need pass data to queryFn
   return useQuery(
     {
-      queryKey: ['${}'],
+      queryKey: ['explorer'],
       queryFn: () => {
         Search(search)
       },

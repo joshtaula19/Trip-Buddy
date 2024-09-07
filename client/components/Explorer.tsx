@@ -1,9 +1,9 @@
-import useExplore from '../hooks/use-explore.ts'
+import useAttractions from '../hooks/useAttractions.ts'
 import LoadingIndicator from './LoadingIndicator'
 import LocationGrid from './LocationGrid.tsx'
 
 export default function Explorer() {
-  const { isPending, isError, data } = useExplore()
+  const { isPending, isError, data } = useAttractions()
 
   // console.log('this is explorer', explorer)
 

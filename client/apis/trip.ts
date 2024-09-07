@@ -6,7 +6,7 @@ const rootUrl = '/api/v1'
 export async function getAllTrips(Auth0ID?:string) {
  
     try {
-      const res = await request.get(rootUrl + '/trips').send(Auth0ID) //need more data in .send()
+      const res = await request.get(rootUrl + '/trips').send(Auth0ID) //do we nedd an auth0Id?
       return res.body
     } catch (error) {
       throw new Error('Sorry,can not find anything')
@@ -33,7 +33,7 @@ export async function addTrip(trip_name,Auth0ID?,
 export async function delTrip(id:number) {
   if(isNaN(Number(id))){throw new Error('Sorry,can not find anything')}
   try {
-    const res = await request.delete(rootUrl + `trips/${id}`) //need more data in .send()
+    const res = await request.delete(rootUrl + `trips/`) //need more data in .send()
     return res.body
   } catch (error) {
     throw new Error('Sorry,can not find anything')
