@@ -4,14 +4,20 @@ import useTrips from '../hooks/useTrip'
 import useAttractions from '../hooks/useAttractions'
 import * as sort from '../utility/dataSortingFn'
 interface LocationGridProps {
-  data: {
-    id: number
-    name: string
-    imageUrl: string
-    price: string
-    userRating: number
-    itineraryID?: number // Optional property
-  }[]
+  data: Attraction[]
+}
+interface Attraction {
+  id: number
+  name: string
+  imageUrl: string
+  price: string
+  userRating: number
+  trip_id?: number // Optional property
+}
+interface Trtip {
+  trip_id: number
+  trip_name: string
+  
 }
 
 const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
@@ -26,7 +32,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
   const { data: trips } = useTrips(auth0Id || '')
   //console.log('list of trips in grid:', trips)
 
-  const handleClick = (id: number, trip_id: number) => {
+  const handleClick = (id: number, trip_id: number|undefined) => {
     if (trip_id) {
       //TODO: delete id from itineraryID
       del.mutate(id)
@@ -37,7 +43,10 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
     } // Show the menu when the button is clicked
   }
 
-  const handleSelect = (event:React.ChangeEvent<HTMLSelectElement>, attraction) => {
+  const handleSelect = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    attraction:Attraction
+  ) => {
     const selectedValue = event.target.value
     // setSelectedID(selectedValue)
     console.log('select value', selectedValue)
@@ -45,7 +54,6 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
 
     //TODO: hook to add to itinerary
     add.mutate({ trip_id: Number(selectedValue), attraction })
-    
   }
 
   return (
@@ -64,20 +72,20 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
               <button
                 onClick={() => handleClick(attraction.id, attraction.trip_id)}
               >
-                {attraction?.trip_id ? '❌' : '✅'}
+                {attraction.trip_id ? '❌' : '✅'}
               </button>
               {showMenu && (
                 <div className="popup-menu">
                   <p>add to trip:</p>
                   <select
-                  value=""
+                    value=""
                     id="itinerarySelect"
                     onChange={(e) => handleSelect(e, attraction)}
                   >
                     <option value="" disabled>
                       Select a trip
                     </option>
-                    {trips.listOfTrips.map((trip) => (
+                    {trips.listOfTrips.map((trip:Trtip) => (
                       <option key={trip.trip_id} value={trip.trip_id}>
                         {trip.trip_name}
                       </option>
