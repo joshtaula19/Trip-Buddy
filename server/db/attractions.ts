@@ -1,20 +1,20 @@
 import connection from './connection'
-import { Attraction } from '../../models/attraction'
+import { FormattedAttraction } from '../../models/attraction'
 
 // Fetch all attractions
-export async function getAllAttractions(): Promise<Attraction[]> {
+export async function getAllAttractions(): Promise<FormattedAttraction[]> {
   const attractionData = await connection('attractions').select('*')
-  return attractionData as Attraction[]
+  return attractionData as FormattedAttraction[]
 }
 
 // Fetch attraction by ID
-export async function getAttractionById(id: number): Promise<Attraction | undefined> {
+export async function getAttractionById(id: number): Promise<FormattedAttraction | undefined> {
   const attractionData = await connection('attractions').where({ id }).first()
-  return attractionData as Attraction | undefined
+  return attractionData as FormattedAttraction | undefined
 }
 
 // Add a new attraction
-export async function addAttraction(newAttraction: Attraction,trip_id:number): Promise<Attraction> {
+export async function addAttraction(newAttraction: FormattedAttraction,trip_id:number): Promise<Attraction> {
   const {name,imageUrl,userRating} =newAttraction
   let attraction_id:number
   try {
