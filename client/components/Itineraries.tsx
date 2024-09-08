@@ -37,7 +37,7 @@ export default function Itineraries() {
   }
 
   // customs hooks here....
-  const placesData = [
+  const placesData = 
     {
       Bali: [
         {
@@ -108,8 +108,8 @@ export default function Itineraries() {
           itineraryID: 3,
         },
       ],
-    },
-  ]
+    }
+  
 
   return (
     <>

@@ -13,7 +13,18 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch trips' })
   }
 })
-
+// Get all trips
+router.get('/auth0id', async (req, res) => {
+  //const Auth0ID = req.body
+  const id =1
+  try {
+    const tripsByUser =await db.getTripsByUserId(id) //await db.getAllTripsByAuth0ID()//Auth0ID
+    console.log('this router data from database:',tripsByUser)
+    res.json(tripsByUser)
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch trips' })
+  }
+})
 // Get a trip by ID
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id)

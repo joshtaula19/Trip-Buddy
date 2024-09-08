@@ -1,5 +1,6 @@
 import connection from './connection'
 import { Trip } from '../../models/trip'
+import sortPlaceData from './dataSortingFn'
 
 // Fetch all trips
 export async function getAllTrips(): Promise<Trip[]> {
@@ -13,18 +14,27 @@ export async function getTripById(id: number): Promise<Trip | undefined> {
   return tripData as Trip | undefined
 }
 
-// Fetch trips by user ID (through users_trips join)
+// Fetch trips by  ID (through users_trips join)
 export async function getTripsByUserId(userId: number): Promise<Trip[]> {
-  const trips = await connection('users_trips')
+  try{
+ 
+    const trips = await connection('users_trips')
     .join('trips', 'users_trips.trip_id', 'trips.id')
-    .select('trips.*')
+    .join('trips_attractions', 'trips.id', 'trips_attractions.trip_id')
+    .join('attractions','trips_attractions.attraction_id','attractions.id')
     .where('users_trips.user_id', userId)
-  return trips as Trip[]
+    .select('trips.trip_name','attractions.id','attractions.name','attractions.imageUrl','attractions.userRating','trips.id as itineraryID')
+    console.log('this is trips in database',trips)
+  return sortPlaceData(trips) 
+}catch(error){
+    console.error('Error fetching trips:', error);
+    throw error; 
+  }
 }
 
 // Add a new trip
 export async function addTrip(newTrip, Auth0Sub): Promise<Trip> {
-  console.log('inside trip.ts', newTrip, Auth0Sub)
+  //console.log('inside trip.ts', newTrip, Auth0Sub)
   const [trip] = await connection('trips')
     .insert({ trip_name: newTrip })
     .returning('*')

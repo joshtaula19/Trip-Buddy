@@ -2,7 +2,7 @@ import request from 'superagent'
 
 const rootUrl = '/api/v1'
 
-export async function getAllTrips(Auth0ID?: string) {
+export async function getTripsByUserId(Auth0ID?: string) {
   try {
     const res = await request.get(rootUrl + '/trips').send(Auth0ID) //do we nedd an auth0Id?
     return res.body

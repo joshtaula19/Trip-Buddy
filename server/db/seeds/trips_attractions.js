@@ -8,7 +8,7 @@ export async function seed(knex) {
 
   await knex('trips_attractions').insert([
     { trip_id: 1, attraction_id: 1 }, 
-    { trip_id: 1, attraction_id: 2 }, 
+    { trip_id: 4, attraction_id: 2 }, 
     { trip_id: 2, attraction_id: 3 }, 
     { trip_id: 3, attraction_id: 4 }, 
   ])
