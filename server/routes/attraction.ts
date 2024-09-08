@@ -13,7 +13,7 @@ let accessToken = ''
 interface Activity {
   id: number
   name: string
-  pictures?: { url: string }[] // Ensure this matches the API response structure
+  pictures?: { url: string }[]
   rating?: number
 }
 
