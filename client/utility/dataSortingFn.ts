@@ -1,11 +1,11 @@
 
 
-export default function sortPlaceData(trips){
+export default function tripData(trips){
  
     
     const formattedData: { [key: string]: any[] } = {};
-  
-    console.log('sortPlaceData trips_name',trips.trip_name)
+  console.log('sorting:',trips)
+   
     trips.forEach(trip => {
       
       if (!formattedData[trip.trip_name]) {
@@ -23,5 +23,19 @@ export default function sortPlaceData(trips){
       });
     });
   
-    return formattedData;
+    return [formattedData];
   }
+  export function ListTrips(trips) {
+    const uniqueTrips = {};
+    
+    trips.forEach(trip => {
+      uniqueTrips[trip.trip_id] = {
+        trip_name: trip.trip_name,
+        trip_id: trip.trip_id
+      };
+    });
+  
+    return Object.values(uniqueTrips);
+  }
+  
+  

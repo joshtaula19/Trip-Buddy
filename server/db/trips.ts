@@ -1,6 +1,6 @@
 import connection from './connection'
 import { Trip } from '../../models/trip'
-import sortPlaceData from './dataSortingFn'
+import * as sort from '../../client/utility/dataSortingFn'
 
 // Fetch all trips
 export async function getAllTrips(): Promise<Trip[]> {
@@ -31,7 +31,7 @@ export async function getTripsByUserId(auth0Id: number): Promise<Trip[]> {
         'trips.id as trip_id',
       )
     console.log('this is trips in database', trips)
-    return [sortPlaceData(trips)]
+    return {trips:sort.default(trips),listOfTrips:sort.ListTrips(trips)}
   } catch (error) {
     console.error('Error fetching trips:', error)
     throw error

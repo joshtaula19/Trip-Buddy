@@ -1,5 +1,6 @@
 import express from 'express'
 import request from 'superagent'
+import * as db from '../db/attractions'
 
 const router = express.Router()
 
@@ -105,10 +106,21 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch attraction data' })
   }
 })
-router.delete('/:id/:trip_id', async (req, res) => {
-  const { id, trip_id } = req.params
+router.post('/', async (req, res) => {
+  const { attraction, trip_id } = req.body
   try {
-    await request.delete(`https://example-api.com/attractions/${id}`)
+    await db.addAttraction(attraction, trip_id)
+    res.json({ message: 'attraction has been added' })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch attraction data' })
+  }
+})
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  const attractionId = Number(id)
+
+  try {
+    await db.deleteAttractionById(attractionId)
     res.json({ message: 'attraction has been delete' })
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch attraction data' })

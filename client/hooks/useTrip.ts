@@ -1,7 +1,7 @@
 import { MutationFunction, useQuery } from '@tanstack/react-query'
 import { useMutation } from '@tanstack/react-query'
 import { useQueryClient } from '@tanstack/react-query'
-import * as tripsFn from '../apis/trip'
+import * as tripsApi from '../apis/trip'
 
 export default function useTrips(auth0Id:string) {
   //trip_name,Auth0ID?,start_date?,end_date?,id?
@@ -9,7 +9,7 @@ export default function useTrips(auth0Id:string) {
   const allTrips = useQuery(
     {
       queryKey: ['trips',auth0Id],
-      queryFn: () => tripsFn.getTripsByUserId(auth0Id),
+      queryFn: () => tripsApi.getTripsByUserId(auth0Id),
     },
     // may be can use data or location for queryKey
   )
@@ -30,8 +30,8 @@ export function useTripsMutation(
   return mutation
 }
 export function useAddTrips() {
-  return useTripsMutation(tripsFn.addTrip)
+  return useTripsMutation(tripsApi.addTrip)
 }
 export function useDelTrips() {
-  return useTripsMutation(tripsFn.delTrip)
+  return useTripsMutation(tripsApi.delTrip)
 }

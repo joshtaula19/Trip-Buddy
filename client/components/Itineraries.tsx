@@ -4,13 +4,16 @@ import useTrips from '../hooks/useTrip'
 import { useAuth0 } from '@auth0/auth0-react'
 import LoadingIndicator from './LoadingIndicator'
 
+
 export default function Itineraries() {
   //Placeholder Data
   const { user, isAuthenticated ,isLoading:auth0Loading} = useAuth0()
 
   const auth0Id = user?.sub
-  const { data: trips, add ,isLoading:dataLoading} = useTrips(auth0Id || '') //if auth0Id is undefined, pass '' to api
-  console.log('this is trip data in itinery:', trips)
+  
+  const { data, add ,isLoading:dataLoading} = useTrips(auth0Id || '') //if auth0Id is undefined, pass '' to api
+  console.log('1111',data)
+ 
   const [input, setInput] = useState(false)
   const [tripName, setTripName] = useState('')
 
@@ -38,7 +41,7 @@ export default function Itineraries() {
     setInput(false)
   }
   if(dataLoading || auth0Loading){<LoadingIndicator/>}
-  if (isAuthenticated) {
+  if (isAuthenticated && data) {
     return (
       <>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -57,11 +60,11 @@ export default function Itineraries() {
             </form>
           )}
         </div>
-        {trips && trips.length > 0 ? (
-          Object.keys(trips[0]).map((attraction) => (
+        {data.trips && data.trips.length > 0 ? (
+          Object.keys(data.trips[0]).map((attraction) => (
             <div key={attraction}>
               <h3>{attraction}</h3>
-              <LocationGrid data={trips[0][attraction]} />
+              <LocationGrid data={data.trips[0][attraction]} />
             </div>
           ))
         ) : (

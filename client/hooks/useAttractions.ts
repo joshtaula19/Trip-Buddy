@@ -1,6 +1,6 @@
 import { MutationFunction, useMutation, useQuery } from '@tanstack/react-query'
 import { useQueryClient } from '@tanstack/react-query'
-import * as attractionsFn from '../apis/attractions'
+import * as attractionsApi from '../apis/attractions'
 
 export default function useAttractions() {
   //dummy data
@@ -92,7 +92,7 @@ export default function useAttractions() {
     queryFn: () =>{return attraction} //attractionsFn.getAttractions,
   })
 
-  return { ...attractions, add: useAddAttractions, delete: useDelAttractions }
+  return { ...attractions, add: useAddAttractions(), del: useDelAttractions() }
 }
 export function useAttractionsMutation(
   mutationFn: MutationFunction<TData, TVariables>,
@@ -109,8 +109,8 @@ export function useAttractionsMutation(
   return mutation
 }
 export function useAddAttractions() {
-  return useAttractionsMutation(attractionsFn.addAttractions)
+  return useAttractionsMutation(attractionsApi.addAttractions)
 }
 export function useDelAttractions() {
-  return useAttractionsMutation(attractionsFn.delAttractions)
+  return useAttractionsMutation(attractionsApi.delAttractions)
 }
