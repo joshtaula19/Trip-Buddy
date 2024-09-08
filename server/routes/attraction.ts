@@ -50,12 +50,12 @@ const fetchActivitiesForLocation = async (lat: string, lon: string) => {
 router.get('/random-activities', async (req, res) => {
   const locations = [
     { lat: '48.8566', lon: '2.3522', name: 'Paris' },
-    { lat: '40.7128', lon: '-74.0060', name: 'New York' },
+    // { lat: '40.7128', lon: '-74.0060', name: 'New York' },
     { lat: '41.6895', lon: '2.1620', name: 'Barcelona' },
     { lat: '13.0236', lon: '77.6423', name: 'Bangalore' },
     { lat: '52.5418', lon: '13.4572', name: 'Berlin' },
     { lat: '32.8070', lon: '-96.7373', name: 'Dallas' },
-    { lat: '51.5201', lon: '-0.06105', name: 'London' },
+    // { lat: '51.5201', lon: '-0.06105', name: 'London' },
     { lat: '37.8109', lon: '-122.3700', name: 'San Francisco' },
   ]
 
@@ -75,7 +75,7 @@ router.get('/random-activities', async (req, res) => {
           activity.pictures && activity.pictures.length > 0, // Ensure there are images
       )
       .sort((a: Activity, b: Activity) => (b.rating || 0) - (a.rating || 0)) // Sort by rating, descending
-      .slice(0, 20) // Get the top 20 highest-rated activities with images
+      .slice(0, 16) // Get the top 20 highest-rated activities with images
 
     res.json(filteredActivities)
   } catch (error) {
