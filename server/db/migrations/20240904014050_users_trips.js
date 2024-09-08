@@ -4,14 +4,10 @@
  */
 export function up(knex) {
   return knex.schema.createTable('users_trips', (table) => {
-    table.integer('user_id')
-      .unsigned()
-      .notNullable()
-      .references('id')
-      .inTable('users')
-      .onDelete('CASCADE')
+    table.string('user_id').notNullable
 
-    table.integer('trip_id')
+    table
+      .integer('trip_id')
       .unsigned()
       .notNullable()
       .references('id')
@@ -19,8 +15,8 @@ export function up(knex) {
       .onDelete('CASCADE')
 
     // Composite primary key to ensure each user-trip pair is unique
-    table.primary(['user_id', 'trip_id']);
-  });
+    table.primary(['user_id', 'trip_id'])
+  })
 }
 
 /**
