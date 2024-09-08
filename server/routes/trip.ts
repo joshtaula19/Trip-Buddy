@@ -15,11 +15,12 @@ router.get('/', async (req, res) => {
 })
 // Get all trips
 router.get('/auth0id', async (req, res) => {
-  //const Auth0ID = req.body
-  const id =1
+  //const auth0Id = req.body
+  //console.log('this is auth0Id in route',auth0Id)
+  const auth0Id = 1
   try {
-    const tripsByUser =await db.getTripsByUserId(id) //await db.getAllTripsByAuth0ID()//Auth0ID
-    console.log('this router data from database:',tripsByUser)
+    const tripsByUser = await db.getTripsByUserId(auth0Id) //await db.getAllTripsByAuth0ID()//Auth0ID
+    console.log('this router data from database:', tripsByUser)
     res.json(tripsByUser)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch trips' })
@@ -38,10 +39,10 @@ router.get('/:id', async (req, res) => {
 
 // Add a new trip
 router.post('/', async (req, res) => {
-  const { trip_name, Auth0Sub } = req.body
+  const { trip_name, auth0Id } = req.body
   // console.log('trip.ts trip_name, Auth0Sub', trip_name, Auth0Sub)
   try {
-    const newTrip = await db.addTrip(trip_name, Auth0Sub)
+    const newTrip = await db.addTrip(trip_name, auth0Id)
     res.status(201).json(newTrip)
   } catch (error) {
     res.status(500).json({ error: 'Failed to add trip' })

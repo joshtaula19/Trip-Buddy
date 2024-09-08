@@ -4,7 +4,7 @@ import LocationGrid from './LocationGrid.tsx'
 
 export default function Explorer() {
   const { isPending, isError, data } = useAttractions()
-
+ console.log('data in explorer',data)
   // console.log('this is explorer', explorer)
 
   if (isPending) {

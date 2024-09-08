@@ -1,5 +1,5 @@
 import express from 'express'
-// import request from 'superagent'
+import request from 'superagent'
 
 const router = express.Router()
 
@@ -101,6 +101,15 @@ router.get('/:id', async (req, res) => {
   try {
     // const response = await request.get(`https://example-api.com/attractions/${id}`)
     res.json(attractions[1])
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch attraction data' })
+  }
+})
+router.delete('/:id/:trip_id', async (req, res) => {
+  const { id, trip_id } = req.params
+  try {
+    await request.delete(`https://example-api.com/attractions/${id}`)
+    res.json({ message: 'attraction has been delete' })
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch attraction data' })
   }

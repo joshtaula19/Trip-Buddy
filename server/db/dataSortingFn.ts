@@ -19,7 +19,7 @@ export default function sortPlaceData(trips){
         name: trip.name,
         imageUrl: trip.imageUrl,
         userRating: trip.userRating.toString(),
-        itineraryID: trip.itineraryID
+        trip_id: trip.trip_id
       });
     });
   

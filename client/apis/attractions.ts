@@ -12,7 +12,7 @@ export async function getAttractions(){
 }
 
 
-export async function addAttractions(name, imageUrl, userRating, tripId) {
+export async function addAttractions({name, imageUrl, userRating, tripId}) {
   try {
     const res = await request.post(rootUrl + '/attractions').send({
       name,

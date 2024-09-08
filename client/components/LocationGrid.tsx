@@ -1,16 +1,24 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import { useState } from 'react'
+import useTrips from '../hooks/useTrip'
 
 const LocationGrid = ({ data }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [selectedID, setSelectedID] = useState(null)
-
+  console.log('trip data in Grid:', data)
   // TODO handle this with a hook to load itineraries
-  const listOfItineraries = { Bali: 2, Sydney: 1, Brisbane: 3 }
+  
+  const { user } = useAuth0()
 
-  const handleClick = (id, itineraryID) => {
-    if (id && itineraryID) {
+  const auth0Id = user?.sub
+  const { data: trips } = useTrips(auth0Id || '')
+  console.log('list of trips in grid:', trips)
+  const listOfTrips = [1, 2, 3] //Object.keys(trips[0])
+
+  const handleClick = (id, trip_id) => {
+    if (id && trip_id) {
       //TODO: delete id from itineraryID
-      console.log('delete this trip id from this itineray', id, itineraryID)
+      console.log('delete this trip id from this itineray', id, trip_id)
     } else {
       setShowMenu(!showMenu)
     } // Show the menu when the button is clicked
@@ -37,8 +45,8 @@ const LocationGrid = ({ data }) => {
             <div className="location-info">
               <h3>{place.name}</h3>
               <p>{place.userRating}</p>
-              <button onClick={() => handleClick(place.id, place.itineraryID)}>
-                {place?.itineraryID ? '❌' : '✅'}
+              <button onClick={() => handleClick(place.id, place.trip_id)}>
+                {place?.trip_id ? '❌' : '✅'}
               </button>
               {showMenu && (
                 <div className="popup-menu">
@@ -47,9 +55,9 @@ const LocationGrid = ({ data }) => {
                     id="itinerarySelect"
                     onChange={(e) => handleSelect(e, place.id)}
                   >
-                    {Object.keys(listOfItineraries).map((key) => (
-                      <option key={key} value={listOfItineraries[key]}>
-                        {key}
+                    {listOfTrips.map((trip, index) => (
+                      <option key={index} value={trip}>
+                        {trip}
                       </option>
                     ))}
                   </select>
