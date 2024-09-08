@@ -1,132 +1,84 @@
 import express from 'express'
 // import request from 'superagent'
 import request from 'superagent'
+import dotenv from 'dotenv'
+// import Amadeus from 'amadeus'
 
+dotenv.config()
 const router = express.Router()
 
-const attractions = [
-  {
-    name: 'Eiffel Tower',
-    imageUrl:
-      'https://www.travelandleisure.com/thmb/SPUPzO88ZXq6P4Sm4mC5Xuinoik=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/eiffel-tower-paris-france-EIFFEL0217-6ccc3553e98946f18c893018d5b42bde.jpg',
-    price: 25.0,
-    userRating: 4.8,
-    id: 11,
-  },
-  {
-    name: 'Great Wall of China',
-    imageUrl:
-      'https://cdn.britannica.com/89/179589-138-3EE27C94/Overview-Great-Wall-of-China.jpg?w=800&h=450&c=crop',
-    price: 30.0,
-    userRating: 4.7,
-    id: 12,
-  },
-  {
-    name: 'Statue of Liberty',
-    imageUrl:
-      'https://cdn.britannica.com/71/99571-050-DFF0A6E5/Statue-of-Liberty-Island-New-York.jpg',
-    price: 20.0,
-    userRating: 4.6,
-    id: 13,
-  },
-  {
-    name: 'Colosseum',
-    imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG52w2si9lBGrDOy8qTygNixJVTSIONmsv6A&s',
-    price: 18.5,
-    userRating: 4.5,
-    id: 14,
-  },
-  {
-    name: 'Taj Mahal',
-    imageUrl:
-      'https://www.travelandleisure.com/thmb/wdUcyBQyQ0wUVs4wLahp0iWgZhc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/taj-mahal-agra-india-TAJ0217-9eab8f20d11d4391901867ed1ce222b8.jpg',
-    price: 22.0,
-    userRating: 4.9,
-    id: 15,
-  },
-  {
-    name: 'Machu Picchu',
-    imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKcntlnFMzTNk7Jl9HStjw82ByHy-opUvfPQ&s',
-    price: 35.0,
-    userRating: 4.8,
-    id: 16,
-  },
-  {
-    name: 'Sydney Opera House',
-    imageUrl:
-      'https://cdn.britannica.com/96/100196-050-C92064E0/Sydney-Opera-House-Port-Jackson.jpg',
-    price: 28.0,
-    userRating: 4.7,
-    id: 17,
-  },
-  {
-    name: 'Christ the Redeemer',
-    imageUrl:
-      'https://publisher-ncreg.s3.us-east-2.amazonaws.com/pb-ncregister/swp/hv9hms/media/20231122221124_45448c583eabca7ad6be347939c641312d4ce7570209ad29d3345175aea14fec.webp',
-    price: 15.0,
-    userRating: 4.6,
-    id: 18,
-  },
-  {
-    name: 'Santorini',
-    imageUrl:
-      'https://lp-cms-production.imgix.net/2024-06/GettyImages-1336913670.jpg?w=1440&h=810&fit=crop&auto=format&q=75',
-    price: 40.0,
-    userRating: 4.9,
-    id: 19,
-  },
-  {
-    name: 'Pyramids of Giza',
-    imageUrl:
-      'https://i.natgeofe.com/n/535f3cba-f8bb-4df2-b0c5-aaca16e9ff31/giza-plateau-pyramids.jpg?w=1280&h=853',
-    price: 50.0,
-    userRating: 4.8,
-    id: 10,
-  },
-]
+const API_KEY = process.env.API_KEY
+const API_SECRET = process.env.API_SECRET
 
-// Fetch all attractions
-router.get('/', async (req, res) => {
+let accessToken = ''
+
+const getAccessToken = async () => {
+  const response = await request
+    .post('https://test.api.amadeus.com/v1/security/oauth2/token')
+    .type('form')
+    .send({
+      grant_type: 'client_credentials',
+      client_id: API_KEY,
+      client_secret: API_SECRET,
+    })
+  accessToken = response.body.access_token
+}
+
+const fetchActivitiesForLocation = async (lat, lon) => {
+  const apiUrl = `https://test.api.amadeus.com/v1/shopping/activities?latitude=${lat}&longitude=${lon}&radius=50000&limit=10`
+  const response = await request
+    .get(apiUrl)
+    .set('Authorization', `Bearer ${accessToken}`)
+  console.log(`Activities Response for ${lat}, ${lon}:`, response.body)
+  return response.body.data || []
+}
+
+router.get('/random-activities', async (req, res) => {
+  const locations = [
+    { lat: '48.8566', lon: '2.3522' }, // Paris
+    { lat: '40.7128', lon: '-74.0060' }, // New York
+    { lat: '41.6895', lon: '2.1620' }, // Barcelona
+  ]
+
+  const TOTAL_MAX_ACTIVITIES = 15
+
   try {
-    const apiKey = '5ae2e3f221c38a28845f05b606a01c9087f952690f7d10d4da04b030'
-    const response = await request
-      .get('https://api.opentripmap.com/0.1/en/places/autosuggest')
-      .query({
-        // Example parameters; adjust as needed
-        apikey: apiKey,
-      })
+    // Get access token for Amadeus API
+    await getAccessToken()
 
-    res.json(response.body)
-  } catch (error) {
-    console.error('Error fetching attractions:', error)
-    res.status(500).json({ error: 'Failed to fetch attraction data' })
-    res.json(attractions)
-  }
-})
+    // Fetch activities from all locations
+    const activitiesPromises = locations.map(async (location) => {
+      const activities = await fetchActivitiesForLocation(
+        location.lat,
+        location.lon,
+      )
+      return activities
+    })
 
-// Fetch attraction details by ID from the external API
-router.get('/:id', async (req, res) => {
-  const { id } = req.params
-  try {
-    const response = await request
-      .get(`https://api.opentripmap.com/0.1/en/places/xid/${id}`)
-      .query({
-        apikey: process.env.OPENTRIPMAP_API_KEY,
-      })
+    // Wait for all activities to be fetched
+    const activitiesResults = await Promise.all(activitiesPromises)
 
-    res.json(response.body) // Use response.body to get the data
-  } catch (error) {
-    console.error('Error fetching attraction details:', error)
-    const attraction = attractions.find(
-      (attraction) => attraction.id === parseInt(id),
+    // Flatten the results
+    const allActivities = activitiesResults.flat()
+
+    // Filter by activities that have an image URL and a rating
+    const filteredByImageAndRating = allActivities
+      .filter(
+        (activity) =>
+          activity.picture && activity.picture[0] && activity.rating,
+      ) // Ensure the activity has an image and a rating
+      .sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating)) // Sort by rating (descending)
+
+    // Limit the number of activities to return
+    const limitedActivities = filteredByImageAndRating.slice(
+      0,
+      TOTAL_MAX_ACTIVITIES,
     )
-    if (attraction) {
-      res.json(attraction)
-    } else {
-      res.status(404).json({ error: 'Attraction not found' })
-    }
+
+    res.json(limitedActivities)
+  } catch (error) {
+    console.error('Error fetching random activities:', error)
+    res.status(500).json({ error: 'Failed to fetch random activities' })
   }
 })
 
