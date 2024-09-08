@@ -38,7 +38,7 @@ const Explorer = () => {
         }, {})
 
         const selectedAttractions = Object.keys(groupedByCity).flatMap((city) =>
-          groupedByCity[city].sort(() => 0.5 - Math.random()).slice(0, 5),
+          groupedByCity[city].sort(() => 0.5 - Math.random()).slice(0, 20),
         )
 
         const formattedData = selectedAttractions.map((activity: any) => ({

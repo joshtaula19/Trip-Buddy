@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 interface LocationGridProps {
   data: {
@@ -7,26 +7,24 @@ interface LocationGridProps {
     imageUrl: string
     price: string
     userRating: number
+    itineraryID?: number // Optional property
   }[]
 }
 
 const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
-  console.log('LocationGrid data:', data)
   const [showMenu, setShowMenu] = useState(false)
   const [selectedID, setSelectedID] = useState<number | null>(null)
 
-  const listOfItineraries: Record<string, number> = {
-    Bali: 2,
-    Sydney: 1,
-    Brisbane: 3,
-  }
+  // TODO handle this with a hook to load itineraries
+  const listOfItineraries = { Bali: 2, Sydney: 1, Brisbane: 3 }
 
   const handleClick = (id: number, itineraryID?: number) => {
     if (id && itineraryID) {
+      // TODO: delete id from itineraryID
       console.log('delete this trip id from this itinerary', id, itineraryID)
     } else {
       setShowMenu(!showMenu)
-    }
+    } // Show the menu when the button is clicked
   }
 
   const handleSelect = (
@@ -35,7 +33,9 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
   ) => {
     const selectedValue = event.target.value
     setSelectedID(Number(selectedValue))
-    setShowMenu(false)
+    setShowMenu(false) // Hide the menu after selection
+
+    // TODO: hook to add to itinerary
     console.log('add this placeID to this itinerary', id, selectedValue)
   }
 
@@ -44,27 +44,29 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
       {data.length === 0 ? (
         <p>No activities available</p>
       ) : (
-        data.map((activity) => (
-          <div key={activity.id} className="location-card">
+        data.map((place) => (
+          <div key={place.id} className="location-card">
             <img
-              src={activity.imageUrl}
-              alt={activity.name}
+              src={place.imageUrl}
+              alt={place.name}
               className="location-image"
             />
             <div className="location-overlay">
               <div className="location-info">
-                <h3>{activity.name}</h3>
-                <p>Price: {activity.price}</p>
-                <p>Rating: {activity.userRating}</p>
-                <button onClick={() => handleClick(activity.id)}>
-                  {showMenu ? '❌' : '✅'}
+                <h3>{place.name}</h3>
+                <p>Price: {place.price}</p>
+                <p>Rating: {place.userRating}</p>
+                <button
+                  onClick={() => handleClick(place.id, place.itineraryID)}
+                >
+                  {place.itineraryID ? '❌' : '✅'}
                 </button>
                 {showMenu && (
                   <div className="popup-menu">
                     <p>Add to trip:</p>
                     <select
                       id="itinerarySelect"
-                      onChange={(e) => handleSelect(e, activity.id)}
+                      onChange={(e) => handleSelect(e, place.id)}
                     >
                       {Object.keys(listOfItineraries).map((key) => (
                         <option key={key} value={listOfItineraries[key]}>

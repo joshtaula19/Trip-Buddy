@@ -1,5 +1,4 @@
 import express from 'express'
-// import request from 'superagent'
 import request from 'superagent'
 import dotenv from 'dotenv'
 // import Amadeus from 'amadeus'
@@ -24,8 +23,8 @@ const getAccessToken = async () => {
   accessToken = response.body.access_token
 }
 
-const fetchActivitiesForLocation = async (lat, lon) => {
-  const apiUrl = `https://test.api.amadeus.com/v1/shopping/activities?latitude=${lat}&longitude=${lon}&radius=50000&limit=10`
+const fetchActivitiesForLocation = async (lat: string, lon: string) => {
+  const apiUrl = `https://test.api.amadeus.com/v1/shopping/activities?latitude=${lat}&longitude=${lon}&radius=50000&limit=50`
   const response = await request
     .get(apiUrl)
     .set('Authorization', `Bearer ${accessToken}`)
@@ -40,44 +39,46 @@ router.get('/random-activities', async (req, res) => {
     { lat: '41.6895', lon: '2.1620' }, // Barcelona
   ]
 
-  const TOTAL_MAX_ACTIVITIES = 15
+  const TOTAL_MAX_ACTIVITIES = 20
 
   try {
-    // Get access token for Amadeus API
     await getAccessToken()
 
-    // Fetch activities from all locations
     const activitiesPromises = locations.map(async (location) => {
-      const activities = await fetchActivitiesForLocation(
-        location.lat,
-        location.lon,
-      )
-      return activities
+      try {
+        const activities = await fetchActivitiesForLocation(
+          location.lat,
+          location.lon,
+        )
+        return activities
+      } catch (error) {
+        console.error(
+          `Error fetching activities for location ${location.lat}, ${location.lon}:`,
+          error,
+        )
+        return [] // Return empty array on error
+      }
     })
 
-    // Wait for all activities to be fetched
     const activitiesResults = await Promise.all(activitiesPromises)
-
-    // Flatten the results
     const allActivities = activitiesResults.flat()
 
-    // Filter by activities that have an image URL and a rating
-    const filteredByImageAndRating = allActivities
-      .filter(
-        (activity) =>
-          activity.picture && activity.picture[0] && activity.rating,
-      ) // Ensure the activity has an image and a rating
-      .sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating)) // Sort by rating (descending)
+    // Filter for attractions with images
+    const activitiesWithImages = allActivities.filter(
+      (activity) => activity.pictures && activity.pictures.length > 0,
+    )
+
+    // Sort by rating in descending order
+    const sortedActivities = activitiesWithImages.sort(
+      (a, b) => (b.rating || 0) - (a.rating || 0),
+    )
 
     // Limit the number of activities to return
-    const limitedActivities = filteredByImageAndRating.slice(
-      0,
-      TOTAL_MAX_ACTIVITIES,
-    )
+    const limitedActivities = sortedActivities.slice(0, TOTAL_MAX_ACTIVITIES)
 
     res.json(limitedActivities)
   } catch (error) {
-    console.error('Error fetching random activities:', error)
+    console.error('Error in /random-activities route:', error)
     res.status(500).json({ error: 'Failed to fetch random activities' })
   }
 })
