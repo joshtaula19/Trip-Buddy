@@ -7,7 +7,7 @@ interface LocationGridProps {
     imageUrl: string
     price: string
     userRating: number
-    itineraryID?: number // Optional property
+    itineraryID?: number
   }[]
 }
 
@@ -15,7 +15,6 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [selectedID, setSelectedID] = useState<number | null>(null)
 
-  // TODO handle this with a hook to load itineraries
   const listOfItineraries = { Bali: 2, Sydney: 1, Brisbane: 3 }
 
   const handleClick = (id: number, itineraryID?: number) => {

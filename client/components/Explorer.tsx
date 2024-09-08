@@ -19,29 +19,10 @@ const Explorer = () => {
         if (!res.ok) {
           throw new Error('Network response was not ok')
         }
-        const data = await res.json()
+        const attractions = await res.json()
 
-        console.log('Raw API data:', data)
-
-        // Ensure `data` is an array
-        if (!Array.isArray(data)) {
-          console.error('Unexpected data format:', data)
-          return
-        }
-
-        // Group attractions and select random ones as before
-        const groupedByCity = data.reduce((acc: any, attraction: any) => {
-          const city = attraction.city || 'Unknown'
-          if (!acc[city]) acc[city] = []
-          acc[city].push(attraction)
-          return acc
-        }, {})
-
-        const selectedAttractions = Object.keys(groupedByCity).flatMap((city) =>
-          groupedByCity[city].sort(() => 0.5 - Math.random()).slice(0, 20),
-        )
-
-        const formattedData = selectedAttractions.map((activity: any) => ({
+        // Assuming `attractions` is an array of objects with the correct structure
+        const formattedData = attractions.map((activity: any) => ({
           id: activity.id,
           name: activity.name,
           imageUrl:
@@ -63,8 +44,8 @@ const Explorer = () => {
 
   return (
     <div>
-      <h2>Explore </h2>
-      <LocationGrid data={placesData} /> {/* Pass the data to LocationGrid */}
+      <h2>Explore</h2>
+      <LocationGrid data={placesData} />
     </div>
   )
 }
