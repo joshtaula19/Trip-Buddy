@@ -4,7 +4,7 @@ const rootUrl = '/api/v1'
 
 export async function getTripsByUserId(auth0Id: string) {
   try {
-    const res = await request.get(rootUrl + `/trips/auth0Id`).send(auth0Id) //do we nedd an auth0Id?
+    const res = await request.get(rootUrl + `/trips/auth0id?auth0Id=${auth0Id}`)//do we nedd an auth0Id?
     console.log('trip data in trip api:',res.body)
     return res.body
   } catch (error) {
