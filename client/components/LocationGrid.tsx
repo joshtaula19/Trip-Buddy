@@ -3,10 +3,21 @@ import { useState } from 'react'
 import useTrips from '../hooks/useTrip'
 import useAttractions from '../hooks/useAttractions'
 import * as sort from '../utility/dataSortingFn'
-const LocationGrid = ({ data }) => {
+interface LocationGridProps {
+  data: {
+    id: number
+    name: string
+    imageUrl: string
+    price: string
+    userRating: number
+    itineraryID?: number // Optional property
+  }[]
+}
+
+const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
   const [showMenu, setShowMenu] = useState(false)
-  const [selectedID, setSelectedID] = useState('')
-  //console.log('trip data in Grid:', data)
+  const [selectedID, setSelectedID] = useState<number | null>(null)
+
   // TODO handle this with a hook to load itineraries
   const { del, add } = useAttractions()
   const { user } = useAuth0()
@@ -26,7 +37,7 @@ const LocationGrid = ({ data }) => {
     } // Show the menu when the button is clicked
   }
 
-  const handleSelect = (event, attraction) => {
+  const handleSelect = (event:React.ChangeEvent<HTMLSelectElement>, attraction) => {
     const selectedValue = event.target.value
     // setSelectedID(selectedValue)
     console.log('select value', selectedValue)
@@ -36,6 +47,7 @@ const LocationGrid = ({ data }) => {
     add.mutate({ trip_id: Number(selectedValue), attraction })
     
   }
+
   return (
     <div className="location-grid">
       {data?.map((attraction) => (
