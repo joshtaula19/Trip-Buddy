@@ -81,7 +81,7 @@ router.get('/random-activities', async (req, res) => {
 
     // Limit the number of activities to return
     const limitedActivities = sortedActivities.slice(0, TOTAL_MAX_ACTIVITIES)
-    console.log('limitedActivities in route', limitedActivities)
+    
     res.json(limitedActivities)
   } catch (error) {
     console.error('Error in /random-activities route:', error)

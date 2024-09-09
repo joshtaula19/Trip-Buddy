@@ -15,7 +15,7 @@ export default function Itineraries() {
   
  
   const [input, setInput] = useState(false)
-  const [tripName, setTripName] = useState('')
+  const [trip_name, setTrip_name] = useState('')
 
   function handleAddInput() {
     setInput(!input)
@@ -25,19 +25,19 @@ export default function Itineraries() {
   function handleChangeTripName(
     event: React.ChangeEvent<HTMLInputElement>,
   ): void {
-    setTripName(event.target.value)
+    setTrip_name(event.target.value)
     // console.log(tripName)
   }
 
   const handleAddTrip = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     try {
-      add.mutate({ trip_name: tripName, auth0Id: auth0Id })
+      add.mutate({ trip_name: trip_name, auth0Id: auth0Id })
     } catch (error) {
       console.error('Error adding trip:', error)
     }
 
-    setTripName('')
+    setTrip_name('')
     setInput(false)
   }
   if(dataLoading || auth0Loading){<LoadingIndicator/>}
@@ -53,7 +53,7 @@ export default function Itineraries() {
               <input
                 type="text"
                 placeholder="Trip name..."
-                value={tripName}
+                value={trip_name}
                 onChange={handleChangeTripName}
               />
               <button onClick={handleAddTrip}>Add</button>
