@@ -10,7 +10,7 @@ export async function Search(search: SearchData) {
     const endpoint =
       searchType === 'accommodation' ? '/accommodation' : '/activities-by-city' // Correct endpoint based on searchType
 
-    const res = await request.get(rootUrl + endpoint).query({
+    const res = await request.get(rootUrl + '/attractions' + endpoint).query({
       // Use .query() for query parameters
       content,
       start_date,

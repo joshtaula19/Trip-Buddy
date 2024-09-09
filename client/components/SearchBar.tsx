@@ -1,18 +1,21 @@
 import { useState } from 'react'
 import '../styles/searchBar.css'
-import { Search } from '../apis/search.ts'
+import { Search } from '../apis/search'
 import { SearchData } from '../../models/search'
 
 interface Activity {
   id: number
   name: string
   imageUrl: string
-  price: string
+  price: {
+    amount: number
+    currencyCode: string
+  }
   userRating: number
 }
 
 export default function SearchBar() {
-  const [searchType, setSearchType] = useState('accommodation')
+  const [searchType, setSearchType] = useState('attractions') // Default to attractions
   const [searchResults, setSearchResults] = useState<Activity[]>([])
   const [search, setSearch] = useState({
     content: '',
@@ -124,13 +127,15 @@ export default function SearchBar() {
               <li key={activity.id}>
                 <img src={activity.imageUrl} alt={activity.name} />
                 <h2>{activity.name}</h2>
-                <p>{activity.price}</p>
+                <p>
+                  {activity.price.amount} {activity.price.currencyCode}
+                </p>
                 <p>Rating: {activity.userRating}</p>
               </li>
             ))}
           </ul>
         )}
-        {/* Add similar rendering logic for 'accommodation' if needed */}
+        {}
       </div>
     </div>
   )
