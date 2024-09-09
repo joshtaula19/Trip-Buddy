@@ -5,7 +5,7 @@ import { Attraction } from '../../models/attraction'
 const rootUrl = '/api/v1'
 
 export async function Search(search: SearchData ) {
-  console.log('query data:',search)
+  //console.log('query data:',search)
   if (search) {
     const { searchType, content, start_date, end_date, numOfGuests } = search
 
@@ -22,8 +22,9 @@ export async function Search(search: SearchData ) {
         end_date,
         numOfGuests,
       })
-
+      console.log('query return:',res.body)
       return res.body
+
     } catch (error) {
       throw new Error('Sorry, cannot find anything')
     }

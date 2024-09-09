@@ -1,68 +1,40 @@
 import { useState } from 'react'
 import '../styles/searchBar.css'
 import { SearchData } from '../../models/search'
-
 import SearchResults from './SearchResults'
 
-// interface SearchBarProps {
-//   onSearch: (searchData: SearchData) => void
-// }
-
 export default function SearchBar() {
-  //{ onSearch }: SearchBarProps
+  const [formData, setFormData] = useState<SearchData>({
+    content: '',
+    start_date: '',
+    end_date: '',
+    numOfGuests: 1,
+    searchType: 'attractions',
+  });
 
-  const [searchTerm, setSearchTerm] = useState<SearchData>({
-    content: '',
-    start_date: '',
-    end_date: '',
-    numOfGuests: 1,
-    searchType: 'attractions',
-  })
-  const [search, setSearch] = useState<SearchData>({
-    content: '',
-    start_date: '',
-    end_date: '',
-    numOfGuests: 1,
-    searchType: 'attractions',
-  })
+  const [searchTerm, setSearchTerm] = useState<SearchData | null>(null);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setSearchTerm(search)
+    e.preventDefault();
+    setSearchTerm({ ...formData });
+  };
 
-    // const searchData: SearchData = {
-    //   content: search.content,
-    //   start_date: search.startDate,
-    //   end_date: search.endDate,
-    //   numOfGuests: parseInt(search.numOfGuests) || 0,
-    //   searchType: 'attractions',
-    // }
-
-    // Pass the searchData to the parent component
-    // onSearch(searchData)
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { id, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [id]: id === 'numOfGuests' ? Number(value) : value,
+    }))
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    const id = e.target.id
-    switch (id) {
-      case 'content':
-        setSearch((prev) => ({ ...prev, content: value }))
-        break
-      case 'startDate':
-        setSearch((prev) => ({ ...prev, start_date: value }))
-        break
-      case 'endDate':
-        setSearch((prev) => ({ ...prev, end_date: value }))
-        break
-      case 'numOfGuests':
-        setSearch((prev) => ({ ...prev, numOfGuests: Number(value) }))
-        break
-      default:
-        break
-    }
-  }
-console.log('searchTerm in searchbar',searchTerm)
+  const handleTabClick = (searchType: 'accommodation' | 'attractions') => {
+    setFormData((prev) => ({ ...prev, searchType }));
+  };
+
+  console.log('searchTerm in searchbar', searchTerm)
+
   return (
     <>
       <div className="search-page">
@@ -70,20 +42,14 @@ console.log('searchTerm in searchbar',searchTerm)
 
         <div className="search-tabs">
           <button
-            className={`tab ${searchTerm.searchType === 'accommodation' ? 'active' : ''}`}
-            onClick={() => {
-              setSearch((prev) => ({ ...prev, searchType: 'accommodation' }))
-            }}
+            className={`tab ${formData.searchType === 'accommodation' ? 'active' : ''}`}
+            onClick={() => handleTabClick('accommodation')}
           >
             Accommodation
           </button>
           <button
-            className={`tab ${searchTerm.searchType === 'attractions' ? 'active' : ''}`}
-            onClick={() => {
-              {
-                setSearch((prev) => ({ ...prev, searchType: 'attractions' }))
-              }
-            }}
+            className={`tab ${formData.searchType === 'attractions' ? 'active' : ''}`}
+            onClick={() => handleTabClick('attractions')}
           >
             Attractions
           </button>
@@ -94,29 +60,29 @@ console.log('searchTerm in searchbar',searchTerm)
             <input
               type="text"
               id="content"
-              value={search.content}
+              value={formData.content}
               placeholder="Where are you going?"
               onChange={handleChange}
             />
             <input
               type="date"
-              id="startDate"
-              value={search.start_date}
+              id="start_date"
+              value={formData.start_date}
               placeholder="Check-in"
               onChange={handleChange}
             />
             <input
               type="date"
-              id="endDate"
-              value={search.end_date}
+              id="end_date"
+              value={formData.end_date}
               placeholder="Check-out"
               onChange={handleChange}
             />
-            {searchTerm.searchType === 'accommodation' && (
+            {formData.searchType === 'accommodation' && (
               <input
                 type="number"
                 id="numOfGuests"
-                value={search.numOfGuests}
+                value={formData.numOfGuests}
                 placeholder="Number of guests"
                 min="1"
                 onChange={handleChange}
@@ -127,7 +93,7 @@ console.log('searchTerm in searchbar',searchTerm)
         </div>
       </div>
       <div>
-        {searchTerm.content ? <SearchResults searchTerm={searchTerm}/>:null}
+        {searchTerm && searchTerm.content && <SearchResults searchTerm={searchTerm} />}
       </div>
     </>
   )

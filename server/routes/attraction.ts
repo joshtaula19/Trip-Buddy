@@ -123,6 +123,7 @@ router.get('/random-activities', async (req, res) => {
       .slice(0, 16) // Get the top 16 highest-rated activities with images
 
     res.json(filteredActivities)
+    console.log('route return data',filteredActivities)
   } catch (error) {
     console.error('Error fetching highest-rated activities:', error)
     res.status(500).json({ error: 'Failed to fetch highest-rated activities' })
