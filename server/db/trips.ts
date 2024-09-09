@@ -30,8 +30,15 @@ export async function getTripsByUserId(auth0Id: string): Promise<Trip[]> {
         'attractions.userRating',
         'trips.id as trip_id',
       )
-      console.log('trips in data',trips)
-    return { trips: sort.default(trips), listOfTrips: sort.ListTrips(trips) }
+      const listOfTrips = await connection('users_trips')
+      .join('trips', 'users_trips.trip_id', 'trips.id')
+      .where('users_trips.auth0Id', auth0Id)
+      .select(
+        'trips.trip_name',
+        'trips.id as trip_id',
+      )
+      
+    return { trips: sort.default(trips), listOfTrips }
   } catch (error) {
     console.error('Error fetching trips:', error)
     throw error
