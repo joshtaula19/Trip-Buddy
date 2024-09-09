@@ -1,0 +1,73 @@
+import { useState } from 'react';
+import AddToTripModal from './AddTripModal';
+import { FormattedAttraction, TripAttraction } from '../../models/attraction';
+import useTrips from '../hooks/useTrip';
+import { useAuth0 } from '@auth0/auth0-react';
+import useAttractions from '../hooks/useAttractions';
+
+const LocationGrid = ({ data }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedAttraction, setSelectedAttraction] = useState
+    <FormattedAttraction | TripAttraction | null
+  >(null);
+  const { user } = useAuth0()
+
+  const auth0Id = user?.sub
+  const { data:trips, refetch,add } = useTrips(auth0Id || '');
+  const {add:create} = useAttractions()
+  const handleClick = (attraction: FormattedAttraction | TripAttraction) => {
+    if (attraction.trip_id) {
+      del.mutate(attraction.id);
+    } else {
+      setSelectedAttraction(attraction);
+      setShowModal(true);
+    }
+  };
+
+  const handleSelect = (tripData: { trip_id: number; trip_name: string }) => {
+    if (tripData.trip_id === -1) {
+      create.mutate({ name: tripData.trip_name }, {
+        onSuccess: (newTrip) => {
+          add.mutate({ trip_id: newTrip.trip_id, attraction: selectedAttraction! });
+          refetch();
+        },
+      });
+    } else {
+      add.mutate({ trip_id: tripData.trip_id, attraction: selectedAttraction! });
+      refetch();
+    }
+  };
+
+return (
+    <div className="location-grid">
+      {data?.map((attraction) => (
+        <div key={attraction.id} className="location-card">
+          <img
+            src={attraction.imageUrl}
+            alt={attraction.name}
+            className="location-image"
+          />
+          <div className="location-overlay">
+            <div className="location-info">
+              <h3>{attraction.name}</h3>
+              <p>{attraction.userRating}</p>
+              <button onClick={() => handleClick(attraction)}>
+                {attraction.trip_id ? '❌' : '✅'}
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+      {showModal && selectedAttraction && (
+        <AddToTripModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onSelect={handleSelect}
+          trips={trips.listOfTrips}
+        />
+      )}
+    </div>
+  );
+
+}
+export default LocationGrid
