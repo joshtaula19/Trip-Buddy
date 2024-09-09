@@ -7,12 +7,14 @@ import { Search } from '../apis/search'
 
 const Explorer = () => {
   const [placesData, setPlacesData] = useState<FormattedAttraction[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     fetchRandomAttractions()
   }, [])
 
   const fetchRandomAttractions = async () => {
+    setLoading(true) // Set loading to true when starting the fetch
     try {
       const res = await fetch('/api/v1/attractions/random-activities', {
         headers: {
@@ -53,10 +55,13 @@ const Explorer = () => {
       setPlacesData(formattedData)
     } catch (error) {
       console.error('Error fetching random activities data:', error)
+    } finally {
+      setLoading(false) // Set loading to false after the fetch is complete
     }
   }
 
   const handleSearch = async (searchData: SearchData) => {
+    setLoading(true) // Set loading to true when starting the search
     try {
       const results: Attraction[] = await Search(searchData)
       const formattedResults: FormattedAttraction[] = results.map(
@@ -83,6 +88,8 @@ const Explorer = () => {
       setPlacesData(formattedResults)
     } catch (error) {
       console.error('Error fetching search results:', error)
+    } finally {
+      setLoading(false) // Set loading to false after the search is complete
     }
   }
 
@@ -90,7 +97,7 @@ const Explorer = () => {
     <div>
       <SearchBar onSearch={handleSearch} />
       <h2>Explore</h2>
-      <LocationGrid data={placesData} />
+      {loading ? <p>Loading...</p> : <LocationGrid data={placesData} />}
     </div>
   )
 }
