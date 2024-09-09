@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import '../styles/searchBar.css'
 import { SearchData } from '../../models/search'
 import SearchResults from './SearchResults'
@@ -10,14 +10,22 @@ export default function SearchBar() {
     end_date: '',
     numOfGuests: 1,
     searchType: 'attractions',
-  });
+  })
 
-  const [searchTerm, setSearchTerm] = useState<SearchData | null>(null);
+  const [searchTerms, setSearchTerms] = useState<SearchData[]>([])
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSearchTerm({ ...formData });
-  };
+    e.preventDefault()
+    setSearchTerms((prevTerms) => [...prevTerms, { ...formData }])
+    // Clear the form after search
+    setFormData({
+      content: '',
+      start_date: '',
+      end_date: '',
+      numOfGuests: 1,
+      searchType: formData.searchType,
+    })
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -30,10 +38,12 @@ export default function SearchBar() {
   }
 
   const handleTabClick = (searchType: 'accommodation' | 'attractions') => {
-    setFormData((prev) => ({ ...prev, searchType }));
-  };
+    setFormData((prev) => ({ ...prev, searchType }))
+  }
 
-  console.log('searchTerm in searchbar', searchTerm)
+  const handleClearSearch = (index: number) => {
+    setSearchTerms((prevTerms) => prevTerms.filter((_, i) => i !== index))
+  }
 
   return (
     <>
@@ -93,7 +103,14 @@ export default function SearchBar() {
         </div>
       </div>
       <div>
-        {searchTerm && searchTerm.content && <SearchResults searchTerm={searchTerm} />}
+        {searchTerms.map((searchTerm, index) => (
+          <div key={index}>
+            <SearchResults searchTerm={searchTerm} />
+            <button onClick={() => handleClearSearch(index)}>
+              Clear this search
+            </button>
+          </div>
+        ))}
       </div>
     </>
   )
