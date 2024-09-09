@@ -42,7 +42,7 @@ const getAccessToken = async () => {
 const fetchActivitiesForLocation = async (lat: string, lon: string) => {
   try{
   const response = await request
-    .get('https://test.api.amadeus.com/v1/shopping/activities')
+    .get('https://api.amadeus.com/v1/shopping/activities')
     .query({
       latitude: lat,
       longitude: lon,

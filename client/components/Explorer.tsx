@@ -1,28 +1,26 @@
-import { useState } from 'react'
 import React, { useState, useEffect, useCallback } from 'react'
 import LocationGrid from './LocationGrid'
-import useAttractions from '../hooks/useAttractions'
-
-import { sortRawAttractionData } from '../utility/dataSortingFn'
 import SearchBar from './SearchBar'
 import { SearchData } from '../../models/search'
-import { FormattedAttraction } from '../../models/attraction'
+
 import { useSearch } from '../hooks/useSearch'
+import tripData, { sortRawAttractionData } from '../utility/dataSortingFn'
+import {  FormattedAttraction } from '../../models/attraction'
 
 const Explorer = () => {
   const [randomPlacesData, setRandomPlacesData] = useState<
-    FormattedAttraction[]
+  FormattedAttraction []
   >([])
   const [searchTerm, setSearchTerm] = useState<SearchData | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   const {
-    data: searchData,
+    data: searchResult,
     isLoading: searchLoading,
     isSuccess: searchSuccess,
     refetch,
   } = useSearch(searchTerm)
-
+console.log('data in exxxxxx',searchResult)
   useEffect(() => {
     if (!searchTerm) {
       fetchRandomAttractions()
@@ -52,7 +50,8 @@ const Explorer = () => {
       }
 
       const attractions = await res.json()
-      const formattedData = formatAttractions(attractions)
+      const formattedData = sortRawAttractionData(attractions)
+      console.log('sortted rand data',formattedData)
       setRandomPlacesData(formattedData)
     } catch (error) {
       console.error('Error fetching random activities data:', error)
@@ -60,46 +59,30 @@ const Explorer = () => {
       setLoading(false)
     }
   }
+  
 
-  const handleSearch = useCallback((searchData: SearchData) => {
-    setSearchTerm(searchData)
+  
+  const handleSearch =
+  useCallback((searchTerm: SearchData) => {
+    setSearchTerm(searchTerm)
   }, [])
 
   const handleClearSearch = useCallback(() => {
     setSearchTerm(null)
   }, [])
 
-  const formatAttractions = (attractions: any[]): FormattedAttraction[] => {
-    return attractions.map((activity: any) => ({
-      id: activity.id,
-      name: activity.name,
-      imageUrl:
-        activity.pictures && activity.pictures.length > 0
-          ? activity.pictures[0]
-          : 'https://placeimg.com/400/300/nature',
-      price:
-        activity.price && activity.price.amount
-          ? {
-              amount:
-                typeof activity.price.amount === 'string'
-                  ? parseFloat(activity.price.amount)
-                  : activity.price.amount,
-              currencyCode: activity.price.currencyCode,
-            }
-          : undefined,
-      userRating: activity.rating ? parseFloat(activity.rating) : 0,
-    }))
-  }
+  
 
   const renderContent = () => {
     if (searchTerm) {
       if (searchLoading) {
         return <p>Loading search results...</p>
       }
-      if (!searchData) {
+      if (!searchResult) {
         return <p>No results found</p>
       }
-      const formattedSearchData = formatAttractions(searchData)
+      const formattedSearchData = sortRawAttractionData(searchResult)
+      console.log('sortted search data',formattedSearchData)
       return <LocationGrid data={formattedSearchData} />
     } else {
       if (loading) {

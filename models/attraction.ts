@@ -1,15 +1,3 @@
-export interface Attraction {
-  id: number
-  name: string
-  city?: string
-  pictures?: string[]
-  price?: {
-    amount: number
-    currencyCode?: string
-  }
-  rating?: string
-}
-
 export interface GroupedByCity {
   [city: string]: Attraction[]
 }
@@ -24,4 +12,20 @@ export interface Attraction {
   } | null
   userRating: number
   trip_id?: number
+}
+
+export interface FormattedAttraction {
+  id: number
+  name: string
+  imageUrl: string
+  price: string
+  userRating: number
+ 
+}
+export interface TripAttraction {
+  id: number
+  name: string
+  imageUrl: string
+  userRating: number
+  trip_id: number
 }
