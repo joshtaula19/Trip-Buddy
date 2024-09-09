@@ -1,20 +1,9 @@
 import { useState } from 'react'
+import { FormattedAttraction } from '../../models/attraction'
 
-interface LocationGridProps {
-  data: {
-    id: number
-    name: string
-    imageUrl: string
-    price: {
-      amount: number
-      currencyCode: string
-    } | null
-    userRating: number
-    itineraryID?: number
-  }[]
-}
 
-const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
+
+const LocationGrid = ({ data }:{data: FormattedAttraction[]}) => {
   const [showMenu, setShowMenu] = useState(false)
   const [selectedID, setSelectedID] = useState<number | null>(null)
 

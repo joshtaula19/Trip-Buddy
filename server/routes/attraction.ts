@@ -29,7 +29,7 @@ const getAccessToken = async () => {
         client_secret: API_SECRET,
       })
     accessToken = response.body.access_token
-    console.log('Access token fetched:', accessToken) // Debugging log
+    //console.log('Access token fetched:', accessToken) // Debugging log
   } catch (error) {
     console.error('Error getting access token:', error)
     throw new Error('Failed to get access token')
@@ -43,7 +43,7 @@ const fetchActivitiesForLocation = async (lat: string, lon: string) => {
     const response = await request
       .get(apiUrl)
       .set('Authorization', `Bearer ${accessToken}`)
-    console.log('Activities fetched for location:', response.body) // Debugging log
+    //console.log('Activities fetched for location:', response.body) // Debugging log
     return response.body.data || []
   } catch (error) {
     console.error(`Error fetching activities for ${lat}, ${lon}:`, error)
@@ -58,7 +58,7 @@ const fetchCityCoordinates = async (cityName: string) => {
     const response = await request
       .get(apiUrl)
       .set('Authorization', `Bearer ${accessToken}`)
-    console.log('City coordinates fetched:', response.body) // Debugging log
+    //console.log('City coordinates fetched:', response.body) // Debugging log
     const cityData = response.body.data[0]
     return { lat: cityData.geoCode.latitude, lon: cityData.geoCode.longitude }
   } catch (error) {
@@ -70,7 +70,7 @@ const fetchCityCoordinates = async (cityName: string) => {
 // Route to get activities for a specific city
 router.get('/activities-by-city', async (req, res) => {
   const cityName = req.query.content as string // Get city name from query parameters
-
+console.log('search nameeeeee',cityName)
   if (!cityName) {
     return res.status(400).json({ error: 'City name is required' })
   }
