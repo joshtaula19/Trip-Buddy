@@ -3,10 +3,14 @@ import { createRoutesFromElements, Route } from 'react-router-dom'
 import Layout from './components/Layout.tsx'
 import Home from './components/Home.tsx'
 import Profile from './components/UserProfile.tsx'
+import MyTrips from './components/MyTrips.tsx'
+import ExplorerPage from './components/ExplorerPage.tsx'
 
 export default createRoutesFromElements(
   <Route path="/" element={<Layout />}>
-    <Route path="/UserProfile" element={<Profile />} />
     <Route index element={<Home />} />
+    <Route path="/UserProfile" element={<Profile />} />
+    <Route path="/itineraries" element={<MyTrips />} />
+    <Route path="/explore" element={<ExplorerPage />} />
   </Route>,
 )
