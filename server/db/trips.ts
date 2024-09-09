@@ -30,7 +30,7 @@ export async function getTripsByUserId(auth0Id: string): Promise<Trip[]> {
         'attractions.userRating',
         'trips.id as trip_id',
       )
-
+      console.log('trips in data',trips)
     return { trips: sort.default(trips), listOfTrips: sort.ListTrips(trips) }
   } catch (error) {
     console.error('Error fetching trips:', error)
@@ -41,15 +41,21 @@ export async function getTripsByUserId(auth0Id: string): Promise<Trip[]> {
 // Add a new trip
 export async function addTrip(newTrip, auth0Id): Promise<Trip> {
   //console.log('inside trip.ts', newTrip, Auth0Sub)
-  const [trip] = await connection('trips')
+  try {
+    const [trip] = await connection('trips')
     .insert({ trip_name: newTrip })
     .returning('*')
   console.log('trip,', trip)
   console.log('here we are in server', trip.id, auth0Id)
   await connection('users_trips').insert({
     trip_id: trip.id,
-    user_id: auth0Id,
+    auth0Id: auth0Id,
   })
+  } catch (error) {
+    console.error('Error fetching trips:', error)
+    throw error
+  }
+  
 }
 
 // Delete a trip by ID
