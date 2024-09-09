@@ -4,19 +4,23 @@ import { SearchData } from '../../models/search'
 const rootUrl = '/api/v1'
 
 export async function Search(search: SearchData) {
-  if (search.numOfGuests) {
-    try {
-      const res = await request.get(rootUrl + '/accommodation').send(search) //need more data in .send()
-      return res.body
-    } catch (error) {
-      throw new Error('Sorry,can not find anything')
-    }
-  } else {
-    try {
-      const res = await request.get(rootUrl + '/attractions').send(search) //need more data in .send()
-      return res.body
-    } catch (error) {
-      throw new Error('Sorry,can not find anything')
-    }
+  const { searchType, content, start_date, end_date, numOfGuests } = search
+
+  try {
+    const endpoint =
+      searchType === 'accommodation' ? '/accommodation' : '/activities-by-city' // Correct endpoint based on searchType
+
+    const res = await request.get(rootUrl + endpoint).query({
+      // Use .query() for query parameters
+      content,
+      start_date,
+      end_date,
+      numOfGuests,
+    })
+
+    return res.body
+  } catch (error) {
+    console.error('Error in Search function:', error)
+    throw new Error('Sorry, cannot find anything')
   }
 }

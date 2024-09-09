@@ -1,26 +1,45 @@
 import { useState } from 'react'
 import '../styles/searchBar.css'
+import { Search } from '../apis/search.ts'
+import { SearchData } from '../../models/search'
+
+interface Activity {
+  id: number
+  name: string
+  imageUrl: string
+  price: string
+  userRating: number
+}
+
 export default function SearchBar() {
   const [searchType, setSearchType] = useState('accommodation')
-  const [searchResults, setSearchResults] = useState([])
+  const [searchResults, setSearchResults] = useState<Activity[]>([])
   const [search, setSearch] = useState({
     content: '',
     startDate: '',
     endDate: '',
     numOfGuests: '',
   })
-  // const [hoveredCard, setHoveredCard] = useState(null);
 
-  const handleSearch = (e:React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-                     
-    // const results = search-api functuion (search)
-    // setSearchResults(results)
 
-    
-    //   setSearchResults(mockResults.filter((result) => result.type === searchType))
+    const searchData: SearchData = {
+      content: search.content,
+      start_date: search.startDate,
+      end_date: search.endDate,
+      numOfGuests: parseInt(search.numOfGuests) || 0, // Convert to number
+      searchType: 'attractions',
+    }
+
+    try {
+      const results = await Search(searchData)
+      setSearchResults(results)
+    } catch (error) {
+      console.error('Error fetching results:', error)
+    }
   }
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     const id = e.target.id
@@ -39,28 +58,30 @@ export default function SearchBar() {
         break
       default:
         break
-    }}
-    return (
-      <div className="search-page">
-        <h1>TripBuddy Search</h1>
+    }
+  }
 
-        <div className="search-tabs">
-          <button
-            className={`tab ${searchType === 'accommodation' ? 'active' : ''}`}
-            onClick={() => setSearchType('accommodation')}
-          >
-            Accommodation
-          </button>
-          <button
-            className={`tab ${searchType === 'attractions' ? 'active' : ''}`}
-            onClick={() => setSearchType('attractions')}
-          >
-            Attractions
-          </button>
-        </div>
+  return (
+    <div className="search-page">
+      <h1>TripBuddy Search</h1>
 
-        <div className="search-form">
-          <form id='searchForm' onSubmit={handleSearch}>
+      <div className="search-tabs">
+        <button
+          className={`tab ${searchType === 'accommodation' ? 'active' : ''}`}
+          onClick={() => setSearchType('accommodation')}
+        >
+          Accommodation
+        </button>
+        <button
+          className={`tab ${searchType === 'attractions' ? 'active' : ''}`}
+          onClick={() => setSearchType('attractions')}
+        >
+          Attractions
+        </button>
+      </div>
+
+      <div className="search-form">
+        <form id="searchForm" onSubmit={handleSearch}>
           <input
             type="text"
             id="content"
@@ -92,9 +113,25 @@ export default function SearchBar() {
               onChange={handleChange}
             />
           )}
-          <button >Search</button></form>
-        </div>
+          <button type="submit">Search</button>
+        </form>
       </div>
-    )
-  }
 
+      <div className="search-results">
+        {searchType === 'attractions' && searchResults.length > 0 && (
+          <ul>
+            {searchResults.map((activity) => (
+              <li key={activity.id}>
+                <img src={activity.imageUrl} alt={activity.name} />
+                <h2>{activity.name}</h2>
+                <p>{activity.price}</p>
+                <p>Rating: {activity.userRating}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {/* Add similar rendering logic for 'accommodation' if needed */}
+      </div>
+    </div>
+  )
+}
