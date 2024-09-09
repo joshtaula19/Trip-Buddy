@@ -21,14 +21,17 @@ const LocationGrid = ({ data }) => {
 
   const handleSelect = (tripData: { trip_id: number; trip_name: string }) => {
     if (tripData.trip_id === -2) {
-      add.mutate({ name: tripData.trip_name }, {
+      //console.log('in location grip tripData',tripData)
+      add.mutate({ trip_name: tripData.trip_name,auth0Id }, {
         onSuccess: (newTrip) => {
+          //console.log('in location grip newTrip',newTrip)
           create.mutate({ trip_id: newTrip.id, attraction: selectedAttraction! });
           refetch();
         },
       });
     } else {
-      add.mutate({ trip_id: tripData.trip_id, attraction: selectedAttraction! });
+      create.mutate({ trip_id: tripData.trip_id, attraction: selectedAttraction! });
+      console.log('in location grip add in existing trip',{ trip_id: tripData.trip_id, attraction: selectedAttraction! })
       refetch();
     }
     setShowModal(false);
@@ -61,7 +64,7 @@ const LocationGrid = ({ data }) => {
           onClose={() => setShowModal(false)}
           onSelect={handleSelect}
           trips={trips.listOfTrips}
-          create={add}
+          
         />
       )}
     </div>

@@ -1,7 +1,7 @@
 import  { useState } from 'react';
 import Modal from 'react-modal';
 import '../styles/window.css'
-const AddToTripModal = ({ isOpen, onClose, onSelect, trips}) => {
+const AddToTripModal = ({ isOpen, onClose, onSelect, trips,}) => {
   const [selectedTripId, setSelectedTripId] = useState(-1);
   const [newTripName, setNewTripName] = useState('');
   
@@ -12,6 +12,7 @@ const AddToTripModal = ({ isOpen, onClose, onSelect, trips}) => {
   const handleSubmit = () => {
     if (selectedTripId === -2) {
       onSelect({ trip_id: -2, trip_name: newTripName });
+      console.log('newTripName in window',{ trip_id: -2, trip_name: newTripName })
     } else {
       const selectedTrip = trips.find((trip) => trip.trip_id === selectedTripId);
       onSelect(selectedTrip);

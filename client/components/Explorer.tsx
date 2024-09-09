@@ -82,7 +82,7 @@ console.log('data in exxxxxx',searchResult)
         return <p>No results found</p>
       }
       const formattedSearchData = sortRawAttractionData(searchResult)
-      console.log('sortted search data',formattedSearchData)
+      //console.log('sortted search data',formattedSearchData)
       return <LocationGrid data={formattedSearchData} />
     } else {
       if (loading) {
