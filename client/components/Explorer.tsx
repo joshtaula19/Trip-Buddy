@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import LocationGrid from './LocationGrid'
 import useAttractions from '../hooks/useAttractions'
 import LoadingIndicator from './LoadingIndicator'
@@ -6,6 +6,7 @@ import { sortRawAttractionData } from '../utility/dataSortingFn'
 
 const Explorer = () => {
   const { isPending, isError, data } = useAttractions()
+
   // const [placesData, setPlacesData] = useState<
   //   {
   //     id: number
@@ -15,8 +16,7 @@ const Explorer = () => {
   //     userRating: number
   //   }[]
   // >([])
-  const formattedData = sortRawAttractionData(data)
-console.log('data in explorer',formattedData)
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -65,13 +65,18 @@ console.log('data in explorer',formattedData)
 
   //   fetchData()
   // }, [])
-if(isPending){return <LoadingIndicator/>}
-  return (
-    <div>
-      <h2>Explore </h2>
-      <LocationGrid data={formattedData} /> {/* Pass the data to LocationGrid */}
-    </div>
-  )
+  if (isPending) {
+    return <LoadingIndicator />
+  }
+  if (data) {
+    const formattedData = sortRawAttractionData(data)
+    return (
+      <div>
+        <h2>Explore </h2>
+        <LocationGrid data={formattedData} />
+      </div>
+    )
+  }
 }
 
 export default Explorer
