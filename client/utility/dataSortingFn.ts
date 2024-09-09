@@ -1,26 +1,26 @@
-import { Attraction } from '../../models/attraction'
+import { Attraction, FormattedAttraction } from '../../models/attraction'
 
 interface ActivityData {
-  type: string;
-  id: string;
+  type: string
+  id: string
   self: {
-    href: string;
-    methods: string[];
-  };
-  name: string;
-  description: string;
+    href: string
+    methods: string[]
+  }
+  name: string
+  description: string
   geoCode: {
-    latitude: number;
-    longitude: number;
-  };
-  rating: string;
+    latitude: number
+    longitude: number
+  }
+  rating: string
   price: {
-    amount: string;
-    currencyCode: string;
-  };
-  pictures: string[];
-  bookingLink: string;
-  minimumDuration: string;
+    amount: string
+    currencyCode: string
+  }
+  pictures: string[]
+  bookingLink: string
+  minimumDuration: string
 }
 export default function tripData(trips) {
   const formattedData: { [key: string]: any[] } = {}
@@ -34,7 +34,7 @@ export default function tripData(trips) {
       id: trip.id,
       name: trip.name,
       imageUrl: trip.imageUrl,
-      userRating: trip.userRating.toString(),
+      userRating: trip.userRating,
       trip_id: trip.trip_id,
     })
   })
@@ -54,16 +54,14 @@ export function ListTrips(trips) {
   return Object.values(uniqueTrips)
 }
 
-export function sortRawAttractionData(activityData:ActivityData[]) {
-  const formattedAttractions = activityData.map(item => ({
+export function sortRawAttractionData(activityData: ActivityData[]) {
+  const formattedAttractions = activityData.map((item) => ({
     id: Number(item.id),
     name: item.name,
-    imageUrl: item.pictures[0], 
-    price: `${item.price.amount} ${item.price.currencyCode}`, 
-    userRating: parseFloat(item.rating) 
-  }));
-  
-  
-  
+    imageUrl: item.pictures[0],
+    price: `${item.price.amount} ${item.price.currencyCode}`,
+    userRating: parseFloat(item.rating),
+  }))
+
   return formattedAttractions
 }

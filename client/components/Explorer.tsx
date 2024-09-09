@@ -1,82 +1,104 @@
-import { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import LocationGrid from './LocationGrid'
-import useAttractions from '../hooks/useAttractions'
-import LoadingIndicator from './LoadingIndicator'
-import { sortRawAttractionData } from '../utility/dataSortingFn'
+import SearchBar from './SearchBar'
+import { SearchData } from '../../models/search'
+
+import { useSearch } from '../hooks/useSearch'
+import tripData, { sortRawAttractionData } from '../utility/dataSortingFn'
+import {  FormattedAttraction } from '../../models/attraction'
 
 const Explorer = () => {
-  const { isPending, isError, data } = useAttractions()
+  const [randomPlacesData, setRandomPlacesData] = useState<
+  FormattedAttraction []
+  >([])
+  const [searchTerm, setSearchTerm] = useState<SearchData | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
-  // const [placesData, setPlacesData] = useState<
-  //   {
-  //     id: number
-  //     name: string
-  //     imageUrl: string
-  //     price: string
-  //     userRating: number
-  //   }[]
-  // >([])
+  const {
+    data: searchResult,
+    isLoading: searchLoading,
+    isSuccess: searchSuccess,
+    refetch,
+  } = useSearch(searchTerm)
+console.log('data in exxxxxx',searchResult)
+  useEffect(() => {
+    if (!searchTerm) {
+      fetchRandomAttractions()
+    } else {
+      refetch()
+    }
+  }, [searchTerm, refetch])
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await fetch('/api/v1/attractions/random-activities')
-  //       if (!res.ok) {
-  //         throw new Error('Network response was not ok')
-  //       }
-  //       const data = await res.json()
+  const fetchRandomAttractions = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/v1/attractions/random-activities', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
 
-  //       console.log('Raw API data:', data)
+      if (!res.ok) {
+        const errorBody = await res.text()
+        console.error(
+          'Error fetching data:',
+          res.status,
+          res.statusText,
+          errorBody,
+        )
+        throw new Error('Network response was not ok')
+      }
 
-  //       // Ensure `data` is an array
-  //       if (!Array.isArray(data)) {
-  //         console.error('Unexpected data format:', data)
-  //         return
-  //       }
-
-  //       // Group attractions and select random ones as before
-  //       const groupedByCity = data.reduce((acc: any, attraction: any) => {
-  //         const city = attraction.city || 'Unknown'
-  //         if (!acc[city]) acc[city] = []
-  //         acc[city].push(attraction)
-  //         return acc
-  //       }, {})
-
-  //       const selectedAttractions = Object.keys(groupedByCity).flatMap((city) =>
-  //         groupedByCity[city].sort(() => 0.5 - Math.random()).slice(0, 20),
-  //       )
-
-  //       const formattedData = selectedAttractions.map((activity: any) => ({
-  //         id: activity.id,
-  //         name: activity.name,
-  //         imageUrl:
-  //           activity.pictures[0] || 'https://placeimg.com/400/300/nature',
-  //         price: activity.price.amount
-  //           ? `${activity.price.amount} ${activity.price.currencyCode}`
-  //           : 'Price not available',
-  //         userRating: activity.rating ? parseFloat(activity.rating) : 0,
-  //       }))
-
-  //       setPlacesData(formattedData)
-  //     } catch (error) {
-  //       console.error('Error fetching random activities data:', error)
-  //     }
-  //   }
-
-  //   fetchData()
-  // }, [])
-  if (isPending) {
-    return <LoadingIndicator />
+      const attractions = await res.json()
+      const formattedData = sortRawAttractionData(attractions)
+      console.log('sortted rand data',formattedData)
+      setRandomPlacesData(formattedData)
+    } catch (error) {
+      console.error('Error fetching random activities data:', error)
+    } finally {
+      setLoading(false)
+    }
   }
-  if (data) {
-    const formattedData = sortRawAttractionData(data)
-    return (
-      <div>
-        <h2>Explore </h2>
-        <LocationGrid data={formattedData} />
-      </div>
-    )
+  
+
+  
+  const handleSearch =
+  useCallback((searchTerm: SearchData) => {
+    setSearchTerm(searchTerm)
+  }, [])
+
+  const handleClearSearch = useCallback(() => {
+    setSearchTerm(null)
+  }, [])
+
+  
+
+  const renderContent = () => {
+    if (searchTerm) {
+      if (searchLoading) {
+        return <p>Loading search results...</p>
+      }
+      if (!searchResult) {
+        return <p>No results found</p>
+      }
+      const formattedSearchData = sortRawAttractionData(searchResult)
+      console.log('sortted search data',formattedSearchData)
+      return <LocationGrid data={formattedSearchData} />
+    } else {
+      if (loading) {
+        return <p>Loading random activities...</p>
+      }
+      return <LocationGrid data={randomPlacesData} />
+    }
   }
+
+  return (
+    <div>
+      <SearchBar onSearch={handleSearch} onClearSearch={handleClearSearch} />
+      <h2>{searchTerm ? 'Search Results' : 'Explore'}</h2>
+      {renderContent()}
+    </div>
+  )
 }
 
 export default Explorer

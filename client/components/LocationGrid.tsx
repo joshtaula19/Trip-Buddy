@@ -3,9 +3,9 @@ import { useState } from 'react'
 import useTrips from '../hooks/useTrip'
 import useAttractions from '../hooks/useAttractions'
 import * as sort from '../utility/dataSortingFn'
-import { Attraction } from '../../models/attraction'
+import {FormattedAttraction, TripAttraction } from '../../models/attraction'
 interface LocationGridProps {
-  data: Attraction[]
+  data: FormattedAttraction[]|TripAttraction[]
 }
 
 interface Trtip {
@@ -23,7 +23,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
 
   const auth0Id = user?.sub
   const { data: trips,refetch} = useTrips(auth0Id || '')
-  //console.log('list of trips in grid:', trips)
+  console.log('list of trips in grid:', trips)
 
 
   const handleClick = (id: number, trip_id: number|undefined) => {
@@ -44,7 +44,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
 
   const handleSelect = (
     event: React.ChangeEvent<HTMLSelectElement>,
-    attraction: Attraction,
+    attraction: TripAttraction,
   ) => {
     const selectedValue = event.target.value
     // setSelectedID(selectedValue)

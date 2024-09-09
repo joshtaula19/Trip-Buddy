@@ -7,6 +7,7 @@ export async function getTripsByUserId(auth0Id: string) {
     const res = await request.get(rootUrl + `/trips/auth0id?auth0Id=${auth0Id}`)//do we nedd an auth0Id?
     
     return res.body
+    console.log('api trip data',res.body)
   } catch (error) {
     throw new Error('Sorry,can not find anything')
   }
