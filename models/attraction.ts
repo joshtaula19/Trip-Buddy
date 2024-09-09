@@ -2,9 +2,9 @@ export interface Attraction {
   id: number
   name: string
   city?: string
-  pictures: string[]
-  price: {
-    amount?: number
+  pictures?: string[]
+  price?: {
+    amount: number
     currencyCode?: string
   }
   rating?: string
@@ -18,6 +18,9 @@ export interface FormattedAttraction {
   id: number
   name: string
   imageUrl: string
-  price: string
+  price: {
+    amount?: number
+    currencyCode?: string
+  } | null
   userRating: number
 }

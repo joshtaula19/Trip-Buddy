@@ -1,22 +1,13 @@
 import { useState } from 'react'
 import '../styles/searchBar.css'
-import { Search } from '../apis/search'
 import { SearchData } from '../../models/search'
 
-interface Activity {
-  id: number
-  name: string
-  imageUrl: string
-  price: {
-    amount: number
-    currencyCode: string
-  }
-  userRating: number
+interface SearchBarProps {
+  onSearch: (searchData: SearchData) => void
 }
 
-export default function SearchBar() {
-  const [searchType, setSearchType] = useState('attractions') // Default to attractions
-  const [searchResults, setSearchResults] = useState<Activity[]>([])
+export default function SearchBar({ onSearch }: SearchBarProps) {
+  const [searchType, setSearchType] = useState('accommodation')
   const [search, setSearch] = useState({
     content: '',
     startDate: '',
@@ -24,23 +15,19 @@ export default function SearchBar() {
     numOfGuests: '',
   })
 
-  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const searchData: SearchData = {
       content: search.content,
       start_date: search.startDate,
       end_date: search.endDate,
-      numOfGuests: parseInt(search.numOfGuests) || 0, // Convert to number
+      numOfGuests: parseInt(search.numOfGuests) || 0,
       searchType: 'attractions',
     }
 
-    try {
-      const results = await Search(searchData)
-      setSearchResults(results)
-    } catch (error) {
-      console.error('Error fetching results:', error)
-    }
+    // Pass the searchData to the parent component
+    onSearch(searchData)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,24 +105,6 @@ export default function SearchBar() {
           )}
           <button type="submit">Search</button>
         </form>
-      </div>
-
-      <div className="search-results">
-        {searchType === 'attractions' && searchResults.length > 0 && (
-          <ul>
-            {searchResults.map((activity) => (
-              <li key={activity.id}>
-                <img src={activity.imageUrl} alt={activity.name} />
-                <h2>{activity.name}</h2>
-                <p>
-                  {activity.price.amount} {activity.price.currencyCode}
-                </p>
-                <p>Rating: {activity.userRating}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-        {}
       </div>
     </div>
   )

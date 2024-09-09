@@ -5,7 +5,10 @@ interface LocationGridProps {
     id: number
     name: string
     imageUrl: string
-    price: string
+    price: {
+      amount: number
+      currencyCode: string
+    } | null
     userRating: number
     itineraryID?: number
   }[]
@@ -55,7 +58,14 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
                 <h3>{place.name}</h3>
                 {!showMenu && (
                   <>
-                    <p>Price: {place.price}</p>
+                    <p>
+                      Price:{' '}
+                      {place.price &&
+                      place.price.amount &&
+                      place.price.currencyCode
+                        ? `${place.price.amount} ${place.price.currencyCode}`
+                        : 'Price not available'}
+                    </p>
                     <p>Rating: {place.userRating}</p>
                   </>
                 )}

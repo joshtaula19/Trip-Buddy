@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <div className="mainBody">
-        <SearchBar />
+        {/* <SearchBar /> */}
         <hr />
         <hr />
         <Itineraries />
