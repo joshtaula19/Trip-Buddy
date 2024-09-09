@@ -3,17 +3,11 @@ import { useState } from 'react'
 import useTrips from '../hooks/useTrip'
 import useAttractions from '../hooks/useAttractions'
 import * as sort from '../utility/dataSortingFn'
+import { Attraction } from '../../models/attraction'
 interface LocationGridProps {
   data: Attraction[]
 }
-interface Attraction {
-  id: number
-  name: string
-  imageUrl: string
-  price: string
-  userRating: number
-  trip_id?: number // Optional property
-}
+
 interface Trtip {
   trip_id: number
   trip_name: string

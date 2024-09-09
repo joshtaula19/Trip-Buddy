@@ -30,7 +30,7 @@ export async function getTripsByUserId(auth0Id: number): Promise<Trip[]> {
         'attractions.userRating',
         'trips.id as trip_id',
       )
-    console.log('this is trips in database', trips)
+    
     return {trips:sort.default(trips),listOfTrips:sort.ListTrips(trips)}
   } catch (error) {
     console.error('Error fetching trips:', error)

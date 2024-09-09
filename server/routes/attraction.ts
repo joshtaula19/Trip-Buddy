@@ -25,9 +25,14 @@ const getAccessToken = async () => {
 }
 
 const fetchActivitiesForLocation = async (lat: string, lon: string) => {
-  const apiUrl = `https://test.api.amadeus.com/v1/shopping/activities?latitude=${lat}&longitude=${lon}&radius=50000&limit=50`
   const response = await request
-    .get(apiUrl)
+    .get('https://test.api.amadeus.com/v1/shopping/activities')
+    .query({
+      latitude: lat,
+      longitude: lon,
+      radius: 50000,
+      limit: 50,
+    })
     .set('Authorization', `Bearer ${accessToken}`)
   console.log(`Activities Response for ${lat}, ${lon}:`, response.body)
   return response.body.data || []
@@ -76,7 +81,7 @@ router.get('/random-activities', async (req, res) => {
 
     // Limit the number of activities to return
     const limitedActivities = sortedActivities.slice(0, TOTAL_MAX_ACTIVITIES)
-
+    console.log('limitedActivities in route', limitedActivities)
     res.json(limitedActivities)
   } catch (error) {
     console.error('Error in /random-activities route:', error)

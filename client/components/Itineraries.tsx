@@ -12,7 +12,7 @@ export default function Itineraries() {
   const auth0Id = user?.sub
   
   const { data, add ,isLoading:dataLoading} = useTrips(auth0Id || '') //if auth0Id is undefined, pass '' to api
-  console.log('1111',data)
+  
  
   const [input, setInput] = useState(false)
   const [tripName, setTripName] = useState('')

@@ -20,7 +20,7 @@ router.get('/auth0id', async (req, res) => {
   const auth0Id = 1
   try {
     const tripsByUser = await db.getTripsByUserId(auth0Id) //await db.getAllTripsByAuth0ID()//Auth0ID
-    console.log('this router data from database:', tripsByUser)
+    
     res.json(tripsByUser)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch trips' })

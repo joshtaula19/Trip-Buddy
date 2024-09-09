@@ -4,13 +4,22 @@ import { SearchData } from '../../models/search'
 const rootUrl = '/api/v1'
 export async function getAttractions(){
   try {
-    const res = await request.get(rootUrl + '/attractions') //need more data in .send()
+    const res = await request.get(rootUrl + '/attractions/') //need more data in .send()
+    //console.log('attraction data api',res.body)
     return res.body
   } catch (error) {
     throw new Error('Sorry,can not find anything')
   }
 }
-
+export async function getRandomAttractions(){
+  try {
+    const res = await request.get(rootUrl + '/attractions/random-activities') //need more data in .send()
+    
+    return res.body
+  } catch (error) {
+    throw new Error('Sorry,can not find anything')
+  }
+}
 
 export async function addAttractions({attraction, trip_id}) {
   try {
