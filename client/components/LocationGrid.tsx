@@ -53,8 +53,13 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
             <div className="location-overlay">
               <div className="location-info">
                 <h3>{place.name}</h3>
-                <p>Price: {place.price}</p>
-                <p>Rating: {place.userRating}</p>
+                {!showMenu && (
+                  <>
+                    <p>Price: {place.price}</p>
+                    <p>Rating: {place.userRating}</p>
+                  </>
+                )}
+
                 <button
                   onClick={() => handleClick(place.id, place.itineraryID)}
                 >
