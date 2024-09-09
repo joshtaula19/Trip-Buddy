@@ -15,9 +15,9 @@ router.get('/', async (req, res) => {
 })
 // Get all trips
 router.get('/auth0id', async (req, res) => {
-  //const auth0Id = req.query.auth0Id
+  const auth0Id = req.query.auth0Id
   //console.log('this is auth0Id in route',auth0Id)
-  const auth0Id = 1
+  
   try {
     const tripsByUser = await db.getTripsByUserId(auth0Id) //await db.getAllTripsByAuth0ID()//Auth0ID
     

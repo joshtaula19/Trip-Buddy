@@ -8,7 +8,7 @@ export default function useTrips(auth0Id:string) {
 
   const allTrips = useQuery(
     {
-      queryKey: ['trips',auth0Id],
+      queryKey: ['trips'],
       queryFn: () => tripsApi.getTripsByUserId(auth0Id),
     },
     // may be can use data or location for queryKey

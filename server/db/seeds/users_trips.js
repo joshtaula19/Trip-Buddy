@@ -8,8 +8,8 @@ export async function seed(knex) {
 
   // Insert seed data
   await knex('users_trips').insert([
-    { user_id: 1, trip_id: 1 },
-    { user_id: 2, trip_id: 1 },
-    { user_id: 1, trip_id: 2 },
+    { Auth0ID: 'auth0|66dcf45af321ee72838d7e47', trip_id: 1 },
+    { Auth0ID: 2, trip_id: 1 },
+    { Auth0ID: 'auth0|66dcf45af321ee72838d7e47', trip_id: 2 },
   ])
 }

@@ -8,7 +8,7 @@ export function up(knex) {
     table.string('username').notNullable();
     table.string('phone').notNullable();
     table.string('email').unique().notNullable();
-    table.string('Auth0ID').unique().notNullable();
+    table.string('auth0Id').unique().notNullable();
   });
 }
 

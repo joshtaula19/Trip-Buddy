@@ -22,10 +22,16 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
   const { user } = useAuth0()
 
   const auth0Id = user?.sub
-  const { data: trips } = useTrips(auth0Id || '')
+  const { data: trips,refetch} = useTrips(auth0Id || '')
   //console.log('list of trips in grid:', trips)
 
-  const handleClick = (id: number, trip_id: number | undefined) => {
+
+  const handleClick = (id: number, trip_id: number|undefined) => {
+    refetch()
+    console.log('lGrid refetch',trips)
+
+  
+
     if (trip_id) {
       //TODO: delete id from itineraryID
       del.mutate(id)

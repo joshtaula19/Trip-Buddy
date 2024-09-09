@@ -34,7 +34,7 @@ const fetchActivitiesForLocation = async (lat: string, lon: string) => {
       limit: 50,
     })
     .set('Authorization', `Bearer ${accessToken}`)
-  console.log(`Activities Response for ${lat}, ${lon}:`, response.body)
+  //console.log(`Activities Response for ${lat}, ${lon}:`, response.body)
   return response.body.data || []
 }
 
@@ -81,7 +81,7 @@ router.get('/random-activities', async (req, res) => {
 
     // Limit the number of activities to return
     const limitedActivities = sortedActivities.slice(0, TOTAL_MAX_ACTIVITIES)
-    console.log('limitedActivities in route', limitedActivities)
+    
     res.json(limitedActivities)
   } catch (error) {
     console.error('Error in /random-activities route:', error)
