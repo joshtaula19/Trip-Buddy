@@ -58,6 +58,7 @@ export async function addTrip(newTrip, auth0Id): Promise<Trip> {
     trip_id: trip.id,
     auth0Id: auth0Id,
   })
+  return trip
   } catch (error) {
     console.error('Error fetching trips:', error)
     throw error

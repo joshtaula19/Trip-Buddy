@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import LocationGrid from './LocationGrid'
+import { useState, useEffect, useCallback } from 'react'
+import LocationGrid from './LocationGrid-1'
 import SearchBar from './SearchBar'
 import { SearchData } from '../../models/search'
 
 import { useSearch } from '../hooks/useSearch'
-import tripData, { sortRawAttractionData } from '../utility/dataSortingFn'
+import { sortRawAttractionData } from '../utility/dataSortingFn'
 import {  FormattedAttraction } from '../../models/attraction'
 
 const Explorer = () => {
@@ -82,7 +82,7 @@ console.log('data in exxxxxx',searchResult)
         return <p>No results found</p>
       }
       const formattedSearchData = sortRawAttractionData(searchResult)
-      console.log('sortted search data',formattedSearchData)
+      //console.log('sortted search data',formattedSearchData)
       return <LocationGrid data={formattedSearchData} />
     } else {
       if (loading) {

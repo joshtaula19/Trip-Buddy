@@ -15,7 +15,7 @@ export async function getTripsByUserId(auth0Id: string) {
 
 export async function addTrip({ trip_name, auth0Id }:{trip_name:string,auth0Id:string}) {
   try {
-    // console.log('inside api/trip.ts trip_name, Auth0Sub', trip_name, Auth0Sub)
+    console.log('inside api/trip.ts trip_name, auth0Id', trip_name, auth0Id)
     const res = await request.post(rootUrl + '/trips').send({
       trip_name,
       auth0Id,

@@ -65,6 +65,7 @@ nav a,
 }
 
 .location-card {
+  cursor: pointer;
   position: relative;
   width: 200px; /* Adjust size as needed */
   height: 150px;

@@ -22,6 +22,8 @@ export async function getRandomAttractions(){
 }
 
 export async function addAttractions({attraction, trip_id}) {
+  console.log('api add attraction',{attraction, trip_id})
+  
   try {
     const res = await request.post(rootUrl + '/attractions').send({attraction, trip_id}) //in server side, when added new attraction in table should return new attraction.id,then add tripId and attraction.id into trip-attraction table
     return res.body
