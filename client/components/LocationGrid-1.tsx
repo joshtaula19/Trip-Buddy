@@ -7,28 +7,23 @@ import useAttractions from '../hooks/useAttractions';
 
 const LocationGrid = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedAttraction, setSelectedAttraction] = useState
-    <FormattedAttraction | TripAttraction | null
-  >(null);
-  const { user } = useAuth0()
+  const [selectedAttraction, setSelectedAttraction] = useState<FormattedAttraction | TripAttraction | null>(null);
+  const { user } = useAuth0();
+  
+  const auth0Id = user?.sub;
+  const { data: trips, refetch, add } = useTrips(auth0Id || '');
+  const { add: create } = useAttractions();
 
-  const auth0Id = user?.sub
-  const { data:trips, refetch,add } = useTrips(auth0Id || '');
-  const {add:create} = useAttractions()
   const handleClick = (attraction: FormattedAttraction | TripAttraction) => {
-    if (attraction.trip_id) {
-      del.mutate(attraction.id);
-    } else {
-      setSelectedAttraction(attraction);
-      setShowModal(true);
-    }
+    setSelectedAttraction(attraction);
+    setShowModal(true);
   };
 
   const handleSelect = (tripData: { trip_id: number; trip_name: string }) => {
-    if (tripData.trip_id === -1) {
-      create.mutate({ name: tripData.trip_name }, {
+    if (tripData.trip_id === -2) {
+      add.mutate({ name: tripData.trip_name }, {
         onSuccess: (newTrip) => {
-          add.mutate({ trip_id: newTrip.trip_id, attraction: selectedAttraction! });
+          create.mutate({ trip_id: newTrip.id, attraction: selectedAttraction! });
           refetch();
         },
       });
@@ -36,12 +31,17 @@ const LocationGrid = ({ data }) => {
       add.mutate({ trip_id: tripData.trip_id, attraction: selectedAttraction! });
       refetch();
     }
+    setShowModal(false);
   };
 
-return (
+  return (
     <div className="location-grid">
       {data?.map((attraction) => (
-        <div key={attraction.id} className="location-card">
+        <div 
+          key={attraction.id} 
+          className="location-card"
+          onClick={() => handleClick(attraction)}
+        >
           <img
             src={attraction.imageUrl}
             alt={attraction.name}
@@ -51,9 +51,6 @@ return (
             <div className="location-info">
               <h3>{attraction.name}</h3>
               <p>{attraction.userRating}</p>
-              <button onClick={() => handleClick(attraction)}>
-                {attraction.trip_id ? '❌' : '✅'}
-              </button>
             </div>
           </div>
         </div>
@@ -64,10 +61,11 @@ return (
           onClose={() => setShowModal(false)}
           onSelect={handleSelect}
           trips={trips.listOfTrips}
+          create={add}
         />
       )}
     </div>
   );
-
 }
-export default LocationGrid
+
+export default LocationGrid;

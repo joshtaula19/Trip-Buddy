@@ -74,3 +74,8 @@
 .modal-button:hover {
   background-color: #0056b3;
 }
+.create-new-trip-option {
+  font-weight: 800; 
+  color: #007bff;
+  background-color: #e6f2ff;
+}

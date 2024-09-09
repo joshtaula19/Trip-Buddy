@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import Modal from 'react-modal';
-
-const AddToTripModal = ({ isOpen, onClose, onSelect, trips }) => {
+import '../styles/window.css'
+const AddToTripModal = ({ isOpen, onClose, onSelect, trips}) => {
   const [selectedTripId, setSelectedTripId] = useState(-1);
   const [newTripName, setNewTripName] = useState('');
-
+  
   const handleSelect = (event) => {
     setSelectedTripId(Number(event.target.value));
   };
 
   const handleSubmit = () => {
-    if (selectedTripId === -1) {
-      onSelect({ trip_id: -1, trip_name: newTripName });
+    if (selectedTripId === -2) {
+      onSelect({ trip_id: -2, trip_name: newTripName });
     } else {
       const selectedTrip = trips.find((trip) => trip.trip_id === selectedTripId);
       onSelect(selectedTrip);
@@ -41,7 +41,7 @@ const AddToTripModal = ({ isOpen, onClose, onSelect, trips }) => {
           <option value="-1" disabled>
             Select a trip or add a new one
           </option>
-          <option value="-2">Create a new trip</option>
+          <option value="-2" className="create-new-trip-option">Create a new trip</option>
           {trips.map((trip) => (
             <option key={trip.trip_id} value={trip.trip_id}>
               {trip.trip_name}
