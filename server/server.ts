@@ -12,6 +12,7 @@ server.use(express.json())
 server.use('/api/v1/users', usersRoutes)
 server.use('/api/v1/trips', tripsRoutes)
 server.use('/api/v1/attractions', attractionsRoutes)
+server.use('/api/v1/accommodations', attractionsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))
