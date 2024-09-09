@@ -7,9 +7,9 @@ export function useSearch(search:SearchData) {
   return useQuery(
     {
       queryKey: ['explorer'],
-      queryFn: () => {
-        Search(search)
-      },
+      queryFn: async() => 
+        await Search(search)
+      ,
     }, // may be can use data or location for queryKey
   )
 }

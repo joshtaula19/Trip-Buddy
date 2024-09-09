@@ -12,18 +12,33 @@ const API_SECRET = process.env.API_SECRET
 
 let accessToken = ''
 
-const getAccessToken = async () => {
-  const response = await request
-    .post('https://test.api.amadeus.com/v1/security/oauth2/token')
-    .type('form')
-    .send({
-      grant_type: 'client_credentials',
-      client_id: API_KEY,
-      client_secret: API_SECRET,
-    })
-  accessToken = response.body.access_token
+interface Activity {
+  id: number
+  name: string
+  pictures?: { url: string }[]
+  rating?: number
 }
 
+// Function to fetch access token
+const getAccessToken = async () => {
+  try {
+    const response = await request
+      .post('https://api.amadeus.com/v1/security/oauth2/token')
+      .type('form')
+      .send({
+        grant_type: 'client_credentials',
+        client_id: API_KEY,
+        client_secret: API_SECRET,
+      })
+    accessToken = response.body.access_token
+    //console.log('Access token fetched:', accessToken) // Debugging log
+  } catch (error) {
+    console.error('Error getting access token:', error)
+    throw new Error('Failed to get access token')
+  }
+}
+
+// Function to fetch activities for a specific location
 const fetchActivitiesForLocation = async (lat: string, lon: string) => {
   try{
   const response = await request
