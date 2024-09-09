@@ -11,7 +11,6 @@ interface LocationGridProps {
 interface Trtip {
   trip_id: number
   trip_name: string
-  
 }
 
 const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
@@ -26,7 +25,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
   const { data: trips } = useTrips(auth0Id || '')
   //console.log('list of trips in grid:', trips)
 
-  const handleClick = (id: number, trip_id: number|undefined) => {
+  const handleClick = (id: number, trip_id: number | undefined) => {
     if (trip_id) {
       //TODO: delete id from itineraryID
       del.mutate(id)
@@ -39,7 +38,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
 
   const handleSelect = (
     event: React.ChangeEvent<HTMLSelectElement>,
-    attraction:Attraction
+    attraction: Attraction,
   ) => {
     const selectedValue = event.target.value
     // setSelectedID(selectedValue)
@@ -62,7 +61,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
           <div className="location-overlay">
             <div className="location-info">
               <h3>{attraction.name}</h3>
-              <p>{attraction.userRating}</p>
+              {!showMenu && <p>{attraction.userRating}</p>}
               <button
                 onClick={() => handleClick(attraction.id, attraction.trip_id)}
               >
@@ -79,7 +78,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
                     <option value="" disabled>
                       Select a trip
                     </option>
-                    {trips.listOfTrips.map((trip:Trtip) => (
+                    {trips.listOfTrips.map((trip: Trtip) => (
                       <option key={trip.trip_id} value={trip.trip_id}>
                         {trip.trip_name}
                       </option>
