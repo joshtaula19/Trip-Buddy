@@ -16,8 +16,8 @@ export default function UserProfile() {
 
   return (
     <div className="mainBody">
-      <h2>{user.name}</h2>
       <img src={user.picture} alt={user.name} className="user-image" />
+      <h2>Welcome! {user.name}</h2>
       <p>Email: {user.email}</p>
       <p>User ID: {user.sub}</p>
 
