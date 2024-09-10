@@ -41,29 +41,47 @@ const getAccessToken = async () => {
 
 // Function to fetch activities for a specific location
 const fetchActivitiesForLocation = async (lat: string, lon: string) => {
-  try{
-  const response = await request
-    .get('https://api.amadeus.com/v1/shopping/activities')
-    .query({
-      latitude: lat,
-      longitude: lon,
-      radius: 50000,
-      limit: 50,
-    })
-    .set('Authorization', `Bearer ${accessToken}`)
-  //console.log(`Activities Response for ${lat}, ${lon}:`, response.body)
-  return response.body.data || []}catch(error) {
+  try {
+    const response = await request
+      .get('https://api.amadeus.com/v1/shopping/activities')
+      .query({
+        latitude: lat,
+        longitude: lon,
+        radius: 50000,
+        limit: 50,
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+    //console.log(`Activities Response for ${lat}, ${lon}:`, response.body)
+    return response.body.data || []
+  } catch (error) {
     console.error(`Error fetching activities for ${lat}, ${lon}:`, error)
     throw new Error('Failed to fetch activities')
   }
 }
+
+const fetchActivityById = async (id: string) => {
+  console.log('this is the id', id)
+  console.log('this is the access token', accessToken)
+
+  try {
+    const response = await request
+      .get(`https://api.amadeus.com/v1/reference-data/locations/pois/${id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+    console.log(`Activities Response for attraction id: ${id}`, response.body)
+    return response.body.data || []
+  } catch (error) {
+    console.error(`Error fetching activities by id`, id, error)
+    throw new Error('Failed to fetch activities')
+  }
+}
+
 const fetchCityCoordinates = async (cityName: string) => {
   const apiUrl = `https://api.amadeus.com/v1/reference-data/locations/cities?keyword=${cityName}&max=1`
   try {
     const response = await request
       .get(apiUrl)
       .set('Authorization', `Bearer ${accessToken}`)
-    console.log('City coordinates fetched:', response.body) // Debugging log
+    // console.log('City coordinates fetched:', response.body) // Debugging log
     const cityData = response.body.data[0]
     return { lat: cityData.geoCode.latitude, lon: cityData.geoCode.longitude }
   } catch (error) {
@@ -99,6 +117,19 @@ router.get('/activities-by-city', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch activities for city' })
   }
 })
+
+router.get('/activities-by-id', async (req, res) => {
+  const { attraction_id } = req.body
+  console.log('attraction_id', attraction_id)
+  await getAccessToken()
+  try {
+    await fetchActivityById(attraction_id)
+    res.json({ message: 'found attraction by id' })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch attraction by id data' })
+  }
+})
+
 router.get('/random-activities', async (req, res) => {
   const locations = [
     { lat: '13.0236', lon: '77.6423', name: 'Bangalore' },
