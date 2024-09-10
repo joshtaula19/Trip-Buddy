@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
 
 export default function User() {
-  const { user, isAuthenticated } = useAuth0()
+  const { user, isAuthenticated, logout } = useAuth0()
 
   if (!isAuthenticated || !user) {
     return (
@@ -11,7 +11,7 @@ export default function User() {
       </>
     )
   }
-const auth0Id = user.sub
+  const auth0Id = user.sub
   return (
     <>
       <div className="credentials">
@@ -24,6 +24,13 @@ const auth0Id = user.sub
         <Link to={`/profile/${auth0Id}`}>
           <button>View Profile</button>
         </Link>
+        <button
+          onClick={() =>
+            logout({ logoutParams: { returnTo: window.location.origin } })
+          }
+        >
+          Log Out
+        </button>
       </div>
     </>
   )

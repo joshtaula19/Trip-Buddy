@@ -31,9 +31,9 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
     }))
   }
 
-  const handleTabClick = (searchType: 'accommodation' | 'attractions') => {
-    setFormData((prev) => ({ ...prev, searchType }))
-  }
+  // const handleTabClick = (searchType: 'accommodation' | 'attractions') => {
+  //   setFormData((prev) => ({ ...prev, searchType }))
+  // }
 
   const handleClear = () => {
     setFormData({
@@ -48,21 +48,21 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
 
   return (
     <div className="search-page">
-      <h1>TripBuddy Search</h1>
+      <h1>Plan Your Next Trip</h1>
 
       <div className="search-tabs">
-        <button
+        {/* <button
           className={`tab ${formData.searchType === 'accommodation' ? 'active' : ''}`}
           onClick={() => handleTabClick('accommodation')}
         >
           Accommodation
-        </button>
-        <button
+        </button> */}
+        {/* <button
           className={`tab ${formData.searchType === 'attractions' ? 'active' : ''}`}
           onClick={() => handleTabClick('attractions')}
         >
           Attractions
-        </button>
+        </button> */}
       </div>
 
       <div className="search-form">
@@ -88,7 +88,7 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
             placeholder="Check-out"
             onChange={handleChange}
           />
-          {formData.searchType === 'accommodation' && (
+          {/* {formData.searchType === 'accommodation' && (
             <input
               type="number"
               id="numOfGuests"
@@ -97,7 +97,7 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
               min="1"
               onChange={handleChange}
             />
-          )}
+          )} */}
           <button type="submit">Search</button>
           <button type="button" onClick={handleClear}>
             Clear

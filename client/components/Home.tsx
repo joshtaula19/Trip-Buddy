@@ -5,11 +5,11 @@ import SearchBar from './SearchBar'
 export default function Home() {
   return (
     <>
-      <div className="mainBody">
+      <div>
         {/* <SearchBar /> */}
         <hr />
         <hr />
-        <Itineraries />
+        {/* <Itineraries /> */}
         <hr />
         <hr />
         <Explorer />

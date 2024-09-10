@@ -10,9 +10,9 @@ export default function Layout() {
         <div id="content-wrap">
           <main>
             <Header />
-            <NavBar />
+            {/* <NavBar /> */}
             <Outlet />
-            <Footer />
+            {/* <Footer /> */}
           </main>
         </div>
       </div>
