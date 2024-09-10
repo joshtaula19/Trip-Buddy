@@ -37,3 +37,19 @@ export async function delTrip(id: number) {
     throw new Error('Sorry,can not find anything')
   }
 }
+export async function fetchUserTrips(auth0Id: string, accessToken: string): Promise<UserTrip[]> {
+  console.log('profile data in apiiiiiii',auth0Id,accessToken)
+  try {
+    const response = await request
+      .get(rootUrl + `/trips/userprofile?auth0Id=${auth0Id}`)
+      .set('Authorization', `Bearer ${accessToken}`) 
+
+    return response.body
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Sorry, there was an error fetching user trips: ${error.message}`)
+    } else {
+      throw new Error('Sorry, there was an unknown error fetching user trips.')
+    }
+  }
+}

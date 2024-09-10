@@ -1,20 +1,51 @@
 import { useAuth0 } from '@auth0/auth0-react'
 
-const Profile = () => {
-  const { user, isAuthenticated } = useAuth0()
 
+import useProfile from '../hooks/useProfile';
+import '../styles/userprofile.css'
+export default function UserProfile() {
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const auth0Id = user?.sub; // Auth0 unique identifier for the user
+
+  // Fetch trips associated with the logged-in user
+  
+  const {data,isLoading,isError,error} = useProfile(auth0Id,getAccessTokenSilently)
   if (!isAuthenticated || !user) {
-    return <div>Please log in</div>
+    return <div>Please log in</div>;
   }
-
+  
+ 
   return (
-    <div>
+    <div className="user-profile">
       <h2>{user.name}</h2>
-      <img src={user.picture} alt={user.name} />
-      <p>{user.email}</p>
-      <p>{user.sub}</p>
-    </div>
-  )
-}
+      <img src={user.picture} alt={user.name} className="user-image" />
+      <p>Email: {user.email}</p>
+      <p>User ID: {user.sub}</p>
 
-export default Profile
+      {isLoading && <p>Loading trips...</p>}
+      {isError && <p>Error fetching trips: {(error as Error).message}</p>}
+      {!data ? (
+        <p>No trip </p>
+      ) : (
+        <ul>
+          {Object.keys(data.trips[0]).map((trip) => (
+            <li key={trip}>
+              <strong>{trip}</strong>
+            </li>
+          ))}
+        </ul>
+      )}
+      {/* {data.trips && data.trips[0].length > 0 ? (
+        <ul>
+          {Object.keys(data.trips[0]).map((trip) => (
+            <li key={trip}>
+              <strong>{trip}</strong>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        null
+      )} */}
+    </div>
+  );
+}

@@ -11,7 +11,7 @@ export default function User() {
       </>
     )
   }
-
+const auth0Id = user.sub
   return (
     <>
       <div className="credentials">
@@ -21,7 +21,7 @@ export default function User() {
           style={{ width: '50px', height: '50px', borderRadius: '50%' }}
         />
         <p>{user.name}</p>
-        <Link to="/UserProfile">
+        <Link to={`/profile/${auth0Id}`}>
           <button>View Profile</button>
         </Link>
       </div>
