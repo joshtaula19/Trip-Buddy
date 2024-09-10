@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.location-grid {
+  @apply flex flex-wrap gap-5 justify-start items-stretch pt-2.5 pb-9;
+}
+
+.location-card {
+  @apply relative w-[200px] h-[150px] overflow-hidden rounded-lg shadow-md cursor-pointer transition-transform duration-300 ease-in-out;
+}
+
+.location-card:hover {
+  @apply transform scale-105;
+}
+
+.image-placeholder {
+  @apply w-full h-full bg-gray-300 rounded-lg;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.location-overlay {
+  @apply absolute inset-0 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 ease-in-out flex items-center justify-center;
+}
+
+.location-card:hover .location-overlay {
+  @apply opacity-100;
+}
+
+.location-info {
+  @apply text-white text-center;
+}
+
+.title-placeholder {
+  @apply h-6 w-3/4 bg-gray-300 mb-2.5 rounded;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.rating-placeholder {
+  @apply h-4 w-1/2 bg-gray-300 rounded;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

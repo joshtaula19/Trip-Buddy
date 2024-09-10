@@ -2,7 +2,7 @@ import LocationGrid from './LocationGrid-1'
 import { useState } from 'react'
 import useTrips from '../hooks/useTrip'
 import { useAuth0 } from '@auth0/auth0-react'
-import LoadingIndicator from './LoadingIndicator'
+import LoadingIndicator from './LoadingPlaceholder'
 
 
 export default function Itineraries() {
