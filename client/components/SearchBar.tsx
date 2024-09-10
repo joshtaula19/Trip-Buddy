@@ -64,7 +64,23 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
 
   return (
     <div className="search-page">
-      <h1 className="search-header">TripBuddy </h1>
+      <h1>Plan Your Next Trip</h1>
+
+      <div className="search-tabs">
+        <button
+          className={`tab ${formData.searchType === 'accommodation' ? 'active' : ''}`}
+          onClick={() => handleTabClick('accommodation')}
+        >
+          Accommodation
+        </button>
+        <button
+          className={`tab ${formData.searchType === 'attractions' ? 'active' : ''}`}
+          onClick={() => handleTabClick('attractions')}
+        >
+          Attractions
+        </button>
+      </div>
+
       <div className="search-form">
         <form id="searchForm" onSubmit={handleSearch}>
           <input

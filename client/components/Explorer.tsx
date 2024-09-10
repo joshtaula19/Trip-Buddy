@@ -64,6 +64,7 @@ const Explorer = () => {
     if (searchTerm) {
       if (searchLoading) {
         return <LoadingPlaceholder />;
+        // return <Spinner />
       }
       if (!searchResult) {
         return <p>No results found</p>;
@@ -73,18 +74,55 @@ const Explorer = () => {
     } else {
       if (loading) {
         return <LoadingPlaceholder />;
+        //return <Spinner />
       }
       return <LocationGrid data={randomPlacesData} />;
     }
-  };
+  }
+
+  const scrollToSearch = () => {
+    const searchElement = document.getElementById('search-container')
+    if (searchElement) {
+      searchElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   return (
-    <div >
-      <SearchBar onSearch={handleSearch} onClearSearch={handleClearSearch} />
-      <h2 >{searchTerm ? 'Search Results' : 'Explore'}</h2>
-      {renderContent()}
-    </div>
-  );
-};
+    <>
+      <div id="search-container"></div>
+      <div>
+        <SearchBar onSearch={handleSearch} onClearSearch={handleClearSearch} />
+        <h2 className="sub-title">
+          {searchTerm ? 'Search Results' : 'Explore'}
+        </h2>
+        {renderContent()}
+      </div>
+      <h2 className="sub-title">Top Trending Searches</h2>
+      <div className="trending">
+        <div>
+          <img src="images/auckland.jpg" alt="Auckland"></img>
+          <h3>Auckland</h3>
+        </div>
+        <div>
+          <img src="images/berlin.jpg" alt="berlin"></img>
+          <h3>Berlin</h3>
+        </div>
+        <div>
+          <img src="images/Sydney.jpg" alt="sydney"></img>
+          <h3>Sydney</h3>
+        </div>
+        <div>
+          <img src="images/gold-coast.jpg" alt="gold coast"></img>
+          <h3>Gold Coast</h3>
+        </div>
+      </div>
+      <div className="btn-wrapper">
+        <button className="search-destinations-btn" onClick={scrollToSearch}>
+          Search Destinations
+        </button>
+      </div>
+    </>
+  )
+}
 
 export default Explorer;

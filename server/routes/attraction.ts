@@ -154,7 +154,7 @@ router.get('/random-activities', async (req, res) => {
           activity.pictures && activity.pictures.length > 0, // Ensure there are images
       )
       .sort((a: Activity, b: Activity) => (b.rating || 0) - (a.rating || 0)) // Sort by rating, descending
-      .slice(0, 16) // Get the top 16 highest-rated activities with images
+      .slice(0, 20) // Get the top 20 highest-rated activities with images
 
     res.json(filteredActivities)
   } catch (error) {
@@ -174,7 +174,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   const attractionId = Number(id)
-console.log('route del:',attractionId)
+  console.log('route del:', attractionId)
   try {
     await db.deleteAttractionById(attractionId)
     res.json({ message: 'attraction has been delete' })

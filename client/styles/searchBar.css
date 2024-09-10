@@ -1,14 +1,34 @@
 .search-page {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 0px;
+  padding: 2rem;
   font-family: Arial, sans-serif;
-  text-align: center; /* Center-align the header and form */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.search-header {
-  font-size: 40px; /* Larger font size for the header */
-  margin-bottom: 30px; /* Increased margin below the header */
+h1 {
+  font-size: 24px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.search-tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.tab.active {
+  background-color: #007bff;
+  color: white;
 }
 
 .search-form {
@@ -46,19 +66,85 @@
   justify-content: center; /* Center the buttons */
 }
 
-.search-form button {
-  padding: 10px;
+
+#searchForm input[type='date'] {
+  flex: 1 1 150px;
+}
+
+#searchForm button {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-git branch -r
-.search-form button.clear-btn {
-  background-color: #6c757d; /* Gray for the clear button */
+
+#searchForm button:hover {
+  background-color: #0056b3;
 }
+
+#searchForm button[type='button'] {
+  background-color: #6c757d;
+}
+
+#searchForm button[type='button']:hover {
+  background-color: #545b62;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.result-card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.result-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.result-card h3 {
+  padding: 10px;
+  margin: 0;
+}
+
+.result-card p {
+  padding: 0 10px 10px;
+  margin: 0;
+}
+
+.rating-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+}
+
 .checkbox-group{
  margin-bottom: 30px;
  gap:20px;
+}
+@media (max-width: 768px) {
+  #searchForm {
+    flex-direction: column;
+  }
+
+  #searchForm input,
+  #searchForm button {
+    width: 100%;
+  }
 }

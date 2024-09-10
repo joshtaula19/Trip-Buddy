@@ -1,23 +1,21 @@
 import { useAuth0 } from '@auth0/auth0-react'
 
-
-import useProfile from '../hooks/useProfile';
+import useProfile from '../hooks/useProfile'
 import '../styles/userprofile.css'
-import useTrips from '../hooks/useTrip';
+import useTrips from '../hooks/useTrip'
 export default function UserProfile() {
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0()
   // const auth0Id = user?.sub; // Auth0 unique identifier for the user
 
   // Fetch trips associated with the logged-in user
-  
-  const {data,isLoading,isError,error} = useTrips(getAccessTokenSilently)
+
+  const { data, isLoading, isError, error } = useTrips(getAccessTokenSilently)
   if (!isAuthenticated || !user) {
-    return <div>Please log in</div>;
+    return <div>Please log in</div>
   }
-  
- 
+
   return (
-    <div className="user-profile">
+    <div className="mainBody">
       <h2>{user.name}</h2>
       <img src={user.picture} alt={user.name} className="user-image" />
       <p>Email: {user.email}</p>
@@ -48,5 +46,5 @@ export default function UserProfile() {
         null
       )} */}
     </div>
-  );
+  )
 }
