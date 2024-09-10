@@ -32,25 +32,40 @@ h1 {
 }
 
 .search-form {
-  width: 100%;
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr; /* Single column layout */
+  gap: 20px; /* Increased gap between elements in the form */
+  justify-items: center; /* Center everything horizontally */
 }
 
-#searchForm {
+.search-form input[type="text"] {
+  width: 600px; /* Adjusted width for the search input */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  margin-bottom: 30px;
+}
+
+.date-group {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  gap: 20px; /* Increased gap between date inputs */
+  justify-content: center; /* Center the date inputs */
 }
 
-#searchForm input,
-#searchForm button {
-  flex: 1 1 200px;
-  padding: 0.75rem;
-  font-size: 1rem;
+.search-form input[type="date"] {
+  width: 150px; /* Width for date inputs */
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-bottom: 30px;
 }
+
+.button-group {
+  display: flex;
+  gap: 20px; /* Increased gap between buttons */
+  justify-content: center; /* Center the buttons */
+}
+
 
 #searchForm input[type='date'] {
   flex: 1 1 150px;
@@ -119,11 +134,10 @@ h1 {
   font-size: 24px;
 }
 
-.star {
-  color: gold;
-  margin-right: 5px;
+.checkbox-group{
+ margin-bottom: 30px;
+ gap:20px;
 }
-
 @media (max-width: 768px) {
   #searchForm {
     flex-direction: column;
