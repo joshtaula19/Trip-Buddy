@@ -9,7 +9,7 @@ const LocationGrid = ({ data }) => {
   const [selectedAttraction, setSelectedAttraction] = useState<
     FormattedAttraction | TripAttraction | null
   >(null)
-  const { user ,getAccessTokenSilently} = useAuth0()
+  const { user, getAccessTokenSilently } = useAuth0()
 
   const auth0Id = user?.sub
 
@@ -66,7 +66,11 @@ const LocationGrid = ({ data }) => {
         <div
           key={attraction.id}
           className="location-card"
-          
+          onClick={() => {
+            if (!attraction.trip_id) {
+              handleRandonClick(attraction)
+            }
+          }}
         >
           <img
             src={attraction.imageUrl}
@@ -78,9 +82,7 @@ const LocationGrid = ({ data }) => {
               <h3>{attraction.name}</h3>
               <p>{attraction.userRating}</p>
               {attraction.trip_id && (
-                <button
-                  onClick={() => handleUserClick(attraction.id)}
-                >
+                <button onClick={() => handleUserClick(attraction.id)}>
                   ❌
                 </button>
               )}
