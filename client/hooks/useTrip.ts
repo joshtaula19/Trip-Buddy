@@ -3,13 +3,15 @@ import { useMutation } from '@tanstack/react-query'
 import { useQueryClient } from '@tanstack/react-query'
 import * as tripsApi from '../apis/trip'
 
-export default function useTrips(auth0Id:string) {
+export default function useTrips(getAccessTokenSilently) {
   //trip_name,Auth0ID?,start_date?,end_date?,id?
 
   const allTrips = useQuery(
     {
       queryKey: ['trips'],
-      queryFn: async() => await tripsApi.getTripsByUserId(auth0Id),
+      queryFn: async() => {
+        const accessToken = await getAccessTokenSilently()
+       return  await tripsApi.getTripsByUserId(accessToken)},
     },
     // may be can use data or location for queryKey
   )

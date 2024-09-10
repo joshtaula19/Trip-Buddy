@@ -7,11 +7,11 @@ import LoadingIndicator from './LoadingIndicator'
 
 export default function Itineraries() {
   //Placeholder Data
-  const { user, isAuthenticated ,isLoading:auth0Loading} = useAuth0()
+  const { user, isAuthenticated ,isLoading:auth0Loading,getAccessTokenSilently} = useAuth0()
 
-  const auth0Id = user?.sub
   
-  const { data, add ,isLoading:dataLoading} = useTrips(auth0Id || '') //if auth0Id is undefined, pass '' to api
+  
+  const { data, add ,isLoading:dataLoading} = useTrips(getAccessTokenSilently) //if auth0Id is undefined, pass '' to api
   
  
   const [input, setInput] = useState(false)

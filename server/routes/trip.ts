@@ -1,53 +1,25 @@
 // server/routes/trips.ts
 import express from 'express'
 import * as db from '../db/trips'
-import checkJwt from '../auth0'
+import checkJwt, { JwtRequest } from '../auth0'
 
 const router = express.Router()
 
 // Get all trips
-router.get('/', async (req, res) => {
-  try {
-    const trips = await db.getAllTrips()
-    res.json(trips)
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch trips' })
+router.get('/', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+
+  if (!auth0Id) {
+    return res.status(500).send('An unknown error occurred')
   }
-})
-// Get all trips
-router.get('/auth0id', async (req, res) => {
-  const auth0Id = req.query.auth0Id
-  //console.log('this is auth0Id in route',auth0Id)
-  
   try {
-    const tripsByUser = await db.getTripsByUserId(auth0Id) //await db.getAllTripsByAuth0ID()//Auth0ID
-    
+    const tripsByUser = await db.getTripsByUserId(auth0Id)
+    console.log('this is data of userPROFILE from route', auth0Id, tripsByUser) // await db.getAllTripsByAuth0ID()//Auth0ID
     res.json(tripsByUser)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch trips' })
   }
 })
-router.get('/userprofile', checkJwt,async (req, res) => { //checkJwt,
-  const auth0Id = req.query.auth0Id;
-  
-  console.log('route profileeeeee',auth0Id)
-
-  try {
-    const tripsByUser = await db.getTripsByUserId(auth0Id);
-    console.log('this is data of userPROFILE from route', auth0Id,tripsByUser) // await db.getAllTripsByAuth0ID()//Auth0ID
-    res.json(tripsByUser);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch trips' });
-  }
-});
-
-// //Error-handling middleware for JWT check
-// router.use((err, req, res, next) => {
-//   if (err.name === 'UnauthorizedError') {
-//     return res.status(401).json({ message: 'Invalid or missing token' });
-//   }
-//   next(err);
-// });
 
 // Get a trip by ID
 router.get('/:id', async (req, res) => {
