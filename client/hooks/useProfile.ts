@@ -6,7 +6,7 @@ export default function useProfile(auth0Id, getAccessTokenSilently) {
 
   return useQuery({
     queryKey: ['userTrips', auth0Id],
-    queryFn: async () => {
+    queryFn: async () =>  {
       if (!auth0Id) {
         throw new Error('User ID is not available.')
       }
@@ -14,7 +14,7 @@ export default function useProfile(auth0Id, getAccessTokenSilently) {
       try {
         const accessToken = await getAccessTokenSilently()
         
-        return fetchUserTrips(auth0Id, accessToken)
+        return await fetchUserTrips(auth0Id, accessToken)
       } catch (tokenError) {
         throw new Error('Failed to retrieve access token.')
       }

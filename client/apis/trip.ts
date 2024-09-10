@@ -38,7 +38,7 @@ export async function delTrip(id: number) {
   }
 }
 export async function fetchUserTrips(auth0Id: string, accessToken: string): Promise<UserTrip[]> {
-  // console.log('profile data in apiiiiiii',auth0Id,accessToken)
+  console.log('profile data in apiiiiiii',auth0Id,accessToken)
   try {
     const response = await request
       .get(rootUrl + `/trips/userprofile?auth0Id=${auth0Id}`)

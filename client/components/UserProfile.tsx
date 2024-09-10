@@ -24,8 +24,18 @@ export default function UserProfile() {
 
       {isLoading && <p>Loading trips...</p>}
       {isError && <p>Error fetching trips: {(error as Error).message}</p>}
-      
-      {data && data.trips[0].length > 0 ? (
+      {!data ? (
+        <p>No trip </p>
+      ) : (
+        <ul>
+          {Object.keys(data.trips[0]).map((trip) => (
+            <li key={trip}>
+              <strong>{trip}</strong>
+            </li>
+          ))}
+        </ul>
+      )}
+      {/* {data.trips && data.trips[0].length > 0 ? (
         <ul>
           {Object.keys(data.trips[0]).map((trip) => (
             <li key={trip}>
@@ -35,7 +45,7 @@ export default function UserProfile() {
         </ul>
       ) : (
         null
-      )}
+      )} */}
     </div>
   );
 }
