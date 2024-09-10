@@ -1,6 +1,7 @@
 // server/routes/trips.ts
 import express from 'express'
 import * as db from '../db/trips'
+import checkJwt from '../auth0'
 
 const router = express.Router()
 
@@ -26,6 +27,28 @@ router.get('/auth0id', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch trips' })
   }
 })
+router.get('/userprofile', checkJwt, async (req, res) => {
+  const auth0Id = req.query.auth0Id;
+  
+  
+
+  try {
+    const tripsByUser = await db.getTripsByUserId(auth0Id);
+    console.log('this is data of userPROFILE from route', auth0Id,tripsByUser) // await db.getAllTripsByAuth0ID()//Auth0ID
+    res.json(tripsByUser);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch trips' });
+  }
+});
+
+// //Error-handling middleware for JWT check
+// router.use((err, req, res, next) => {
+//   if (err.name === 'UnauthorizedError') {
+//     return res.status(401).json({ message: 'Invalid or missing token' });
+//   }
+//   next(err);
+// });
+
 // Get a trip by ID
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id)

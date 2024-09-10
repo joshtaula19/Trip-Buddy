@@ -9,7 +9,9 @@ import ExplorerPage from './components/ExplorerPage.tsx'
 export default createRoutesFromElements(
   <Route path="/" element={<Layout />}>
     <Route index element={<Home />} />
-    <Route path="/UserProfile" element={<UserProfile />} />
+    
+    <Route path="/profile/:auth0Id" element={<UserProfile />} />
+
     <Route path="/itineraries" element={<MyTrips />} />
     <Route path="/explore" element={<ExplorerPage />} />
   </Route>,
