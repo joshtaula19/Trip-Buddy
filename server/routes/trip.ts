@@ -27,7 +27,7 @@ router.get('/auth0id', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch trips' })
   }
 })
-router.get('/userprofile', async (req, res) => { //checkJwt,
+router.get('/userprofile', checkJwt,async (req, res) => { //checkJwt,
   const auth0Id = req.query.auth0Id;
   
   console.log('route profileeeeee',auth0Id)
