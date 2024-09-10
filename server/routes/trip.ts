@@ -14,7 +14,7 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
   }
   try {
     const tripsByUser = await db.getTripsByUserId(auth0Id)
-    console.log('this is data of userPROFILE from route', auth0Id, tripsByUser) // await db.getAllTripsByAuth0ID()//Auth0ID
+    //console.log('this is data of userPROFILE from route', auth0Id, tripsByUser) // await db.getAllTripsByAuth0ID()//Auth0ID
     res.json(tripsByUser)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch trips' })

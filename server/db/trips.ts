@@ -47,7 +47,7 @@ export async function getTripsByUserId(auth0Id: string): Promise<Trip[]> {
 
 // Add a new trip
 export async function addTrip(newTrip, auth0Id): Promise<Trip> {
-  //console.log('inside trip.ts', newTrip, Auth0Sub)
+  //console.log('inside trip.ts', newTrip, auth0Id)
   try {
     const [trip] = await connection('trips')
     .insert({ trip_name: newTrip })

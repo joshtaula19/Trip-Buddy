@@ -1,7 +1,7 @@
 .search-page {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0px;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -51,12 +51,8 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
-#searchForm input[type='date'] {
-  flex: 1 1 150px;
-}
-
-#searchForm button {
+.search-form button {
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -122,15 +118,4 @@ h1 {
 .star {
   color: gold;
   margin-right: 5px;
-}
-
-@media (max-width: 768px) {
-  #searchForm {
-    flex-direction: column;
-  }
-
-  #searchForm input,
-  #searchForm button {
-    width: 100%;
-  }
 }
