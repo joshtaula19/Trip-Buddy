@@ -79,9 +79,9 @@ const Explorer = () => {
   };
 
   return (
-    <div>
+    <div >
       <SearchBar onSearch={handleSearch} onClearSearch={handleClearSearch} />
-      <h2>{searchTerm ? 'Search Results' : 'Explore'}</h2>
+      <h2 >{searchTerm ? 'Search Results' : 'Explore'}</h2>
       {renderContent()}
     </div>
   );
