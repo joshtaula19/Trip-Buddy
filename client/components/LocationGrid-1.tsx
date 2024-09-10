@@ -9,6 +9,7 @@ const LocationGrid = ({ data }) => {
   const [selectedAttraction, setSelectedAttraction] = useState<
     FormattedAttraction | TripAttraction | null
   >(null)
+
   const { user, getAccessTokenSilently } = useAuth0()
 
   const auth0Id = user?.sub
@@ -90,7 +91,7 @@ const LocationGrid = ({ data }) => {
           </div>
         </div>
       ))}
-      {showModal && selectedAttraction && (
+      {showModal && selectedAttraction && auth0Id && (
         <AddToTripModal
           isOpen={showModal}
           onClose={() => setShowModal(false)}
