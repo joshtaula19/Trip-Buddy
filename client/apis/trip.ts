@@ -2,7 +2,7 @@ import request from 'superagent'
 
 const rootUrl = '/api/v1'
 
-export async function getTripsByUserId(accessToken) {
+export async function getTripsByUserId(accessToken:string) {
   try {
     const response = await request
       .get(rootUrl + `/trips/`)

@@ -23,7 +23,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ data }) => {
 
   const auth0Id = user?.sub
   const { data: trips,refetch} = useTrips(auth0Id || '')
-  console.log('list of trips in grid:', trips)
+  //console.log('list of trips in grid:', trips)
 
 
   const handleClick = (id: number, trip_id: number|undefined) => {

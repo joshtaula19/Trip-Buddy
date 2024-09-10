@@ -1,4 +1,4 @@
-import LocationGrid from './LocationGrid'
+import LocationGrid from './LocationGrid-1'
 import { useState } from 'react'
 import useTrips from '../hooks/useTrip'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -9,7 +9,7 @@ export default function Itineraries() {
   //Placeholder Data
   const { user, isAuthenticated ,isLoading:auth0Loading,getAccessTokenSilently} = useAuth0()
 
-  
+  const auth0Id = user?.sub
   
   const { data, add ,isLoading:dataLoading} = useTrips(getAccessTokenSilently) //if auth0Id is undefined, pass '' to api
   

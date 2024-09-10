@@ -2,6 +2,7 @@ import express from 'express'
 import request from 'superagent'
 import dotenv from 'dotenv'
 import * as db from '../db/attractions'
+import checkJwt from '../auth0'
 // import request from 'superagent'
 
 dotenv.config()
@@ -173,7 +174,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   const attractionId = Number(id)
-
+console.log('route del:',attractionId)
   try {
     await db.deleteAttractionById(attractionId)
     res.json({ message: 'attraction has been delete' })

@@ -17,17 +17,21 @@ export async function getAttractionById(id: number): Promise<FormattedAttraction
 export async function addAttraction(newAttraction: FormattedAttraction,trip_id:number): Promise<Attraction> {
   const {name,imageUrl,userRating} =newAttraction
   let attraction_id:number
+ 
   try {
     const existingAttraction = await connection('attractions')
     .where({ name })
     .first();
     if (existingAttraction) {
       // If an attraction with this name already exists, return its ID
-      return attraction_id =existingAttraction.id;
+      console.log('add attraction::exising:::',existingAttraction.id)
+      attraction_id =existingAttraction.id;
+
     } else {
     const [insertedId] = await connection('attractions').insert({name,imageUrl,userRating}).returning('id')
     attraction_id = insertedId.id
   }
+  console.log('add attraction:::::',{trip_id,attraction_id})
     await connection('trips_attractions').insert({trip_id,attraction_id})
 
   } catch (error) {
