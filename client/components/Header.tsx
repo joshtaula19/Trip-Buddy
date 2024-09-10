@@ -1,7 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import User from './User'
 import { NavLink } from 'react-router-dom'
-import SearchBar from './SearchBar'
 
 export default function Header() {
   const { loginWithRedirect, isAuthenticated } = useAuth0()

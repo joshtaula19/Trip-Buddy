@@ -169,20 +169,25 @@ nav a,
 
 /* ------------------------------------------------------------- */
 
+.sub-title {
+  margin: 50px 0 20px;
+  font-size: 2.2vw;
+  font-weight: 500;
+  color: #333;
+  padding: 30px;
+}
+
 .location-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start;
-  align-items: stretch;
-  padding-top: 10px;
-  padding-bottom: 35px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 30px;
+  padding: 30px;
 }
 
 .location-card {
   cursor: pointer;
   position: relative;
-  width: 200px; /* Adjust size as needed */
+  width: 100%; /* Adjust size as needed */
   height: 150px;
   overflow: hidden;
   border-radius: 10px;
@@ -223,6 +228,7 @@ nav a,
 .location-info {
   color: white;
   text-align: center;
+  position: absolute;
 }
 
 .location-info button {
@@ -264,4 +270,67 @@ nav a,
 
 .credentials img {
   margin-right: 10px; /* Optional: adds space between image and text */
+}
+
+/* -------------------- TRENDING ------------------ */
+
+.trending {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 30px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.trending div img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.trending h3 {
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.btn-wrapper {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.search-destinations-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-destinations-btn:hover {
+  background-color: #0056b3;
+}
+
+/* -----------spinner-------------- */
+
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

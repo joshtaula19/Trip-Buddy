@@ -2,14 +2,14 @@ import { useState, useEffect, useCallback } from 'react'
 import LocationGrid from './LocationGrid-1'
 import SearchBar from './SearchBar'
 import { SearchData } from '../../models/search'
-
 import { useSearch } from '../hooks/useSearch'
 import { sortRawAttractionData } from '../utility/dataSortingFn'
-import {  FormattedAttraction } from '../../models/attraction'
+import { FormattedAttraction } from '../../models/attraction'
+import Spinner from './Spinner'
 
 const Explorer = () => {
   const [randomPlacesData, setRandomPlacesData] = useState<
-  FormattedAttraction []
+    FormattedAttraction[]
   >([])
   const [searchTerm, setSearchTerm] = useState<SearchData | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
@@ -20,7 +20,7 @@ const Explorer = () => {
     isSuccess: searchSuccess,
     refetch,
   } = useSearch(searchTerm)
-console.log('data in exxxxxx',searchResult)
+  console.log('data in exxxxxx', searchResult)
   useEffect(() => {
     if (!searchTerm) {
       fetchRandomAttractions()
@@ -51,7 +51,7 @@ console.log('data in exxxxxx',searchResult)
 
       const attractions = await res.json()
       const formattedData = sortRawAttractionData(attractions)
-      console.log('sortted rand data',formattedData)
+      console.log('sortted rand data', formattedData)
       setRandomPlacesData(formattedData)
     } catch (error) {
       console.error('Error fetching random activities data:', error)
@@ -59,11 +59,8 @@ console.log('data in exxxxxx',searchResult)
       setLoading(false)
     }
   }
-  
 
-  
-  const handleSearch =
-  useCallback((searchTerm: SearchData) => {
+  const handleSearch = useCallback((searchTerm: SearchData) => {
     setSearchTerm(searchTerm)
   }, [])
 
@@ -71,33 +68,66 @@ console.log('data in exxxxxx',searchResult)
     setSearchTerm(null)
   }, [])
 
-  
-
   const renderContent = () => {
     if (searchTerm) {
       if (searchLoading) {
-        return <p>Loading search results...</p>
+        return <Spinner />
       }
       if (!searchResult) {
         return <p>No results found</p>
       }
       const formattedSearchData = sortRawAttractionData(searchResult)
-      //console.log('sortted search data',formattedSearchData)
       return <LocationGrid data={formattedSearchData} />
     } else {
       if (loading) {
-        return <p>Loading random activities...</p>
+        return <Spinner />
       }
       return <LocationGrid data={randomPlacesData} />
     }
   }
 
+  const scrollToSearch = () => {
+    const searchElement = document.getElementById('search-container')
+    if (searchElement) {
+      searchElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
-    <div>
-      <SearchBar onSearch={handleSearch} onClearSearch={handleClearSearch} />
-      <h2>{searchTerm ? 'Search Results' : 'Explore'}</h2>
-      {renderContent()}
-    </div>
+    <>
+      <div id="search-container"></div>
+      <div>
+        <SearchBar onSearch={handleSearch} onClearSearch={handleClearSearch} />
+        <h2 className="sub-title">
+          {searchTerm ? 'Search Results' : 'Explore'}
+        </h2>
+        {renderContent()}
+      </div>
+      <h2 className="sub-title">Top Trending Searches</h2>
+      <div className="trending">
+        <div>
+          <img src="images/auckland.jpg" alt="Auckland"></img>
+          <h3>Auckland</h3>
+        </div>
+        <div>
+          <img src="images/berlin.jpg" alt="berlin"></img>
+          <h3>Berlin</h3>
+        </div>
+        <div>
+          <img src="images/Sydney.jpg" alt="sydney"></img>
+          <h3>Sydney</h3>
+        </div>
+        <div>
+          <img src="images/gold-coast.jpg" alt="gold coast"></img>
+          <h3>Gold Coast</h3>
+        </div>
+      </div>
+      <div className="btn-wrapper">
+        <button className="search-destinations-btn" onClick={scrollToSearch}>
+          Search Destinations
+        </button>
+      </div>
+    </>
   )
 }
 
