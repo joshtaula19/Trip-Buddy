@@ -28,10 +28,14 @@ export default function Header() {
                   <NavLink to="/">Home</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/itineraries">Itineraries</NavLink>
+                  <NavLink onClick={scrollToSearch} to="/itineraries">
+                    Itineraries
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/explore">Explore</NavLink>
+                  <NavLink onClick={scrollToSearch} to="/explore">
+                    Explore
+                  </NavLink>
                 </li>
               </ul>
             </nav>
