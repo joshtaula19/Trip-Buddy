@@ -16,6 +16,11 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
     searchType: 'attractions',
   })
 
+  const [showOptions, setShowOptions] = useState({
+    showDates: false,
+    showAccommodation: false,
+  }) // State to manage the visibility of date inputs
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSearch({ ...formData })
@@ -31,9 +36,9 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
     }))
   }
 
-  const handleTabClick = (searchType: 'accommodation' | 'attractions') => {
-    setFormData((prev) => ({ ...prev, searchType }))
-  }
+  // const handleTabClick = (searchType: 'accommodation' | 'attractions') => {
+  //   setFormData((prev) => ({ ...prev, searchType }))
+  // }
 
   const handleClear = () => {
     setFormData({
@@ -43,15 +48,29 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
       numOfGuests: 1,
       searchType: 'attractions',
     })
+    setShowOptions({ showDates: false, showAccommodation: false }) // Hide date inputs when clearing
     onClearSearch()
+  }
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked
+    const checkId = e.target.id
+
+    setShowOptions((prev) => ({ ...prev, [checkId]: checked })) // Show or hide date inputs based on checkbox
+    if (checkId === 'accommodation') {
+      setFormData((prev) => ({
+        ...prev,
+        searchType: checked ? 'accommodation' : 'attractions',
+      }))
+    }
   }
 
   return (
     <div className="search-page">
-      <h1>TripBuddy Search</h1>
+      <h1 className="search-subtitle">Plan Your Next Trip</h1>
 
       <div className="search-tabs">
-        <button
+        {/* <button
           className={`tab ${formData.searchType === 'accommodation' ? 'active' : ''}`}
           onClick={() => handleTabClick('accommodation')}
         >
@@ -62,7 +81,7 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
           onClick={() => handleTabClick('attractions')}
         >
           Attractions
-        </button>
+        </button> */}
       </div>
 
       <div className="search-form">
@@ -71,37 +90,56 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
             type="text"
             id="content"
             value={formData.content}
-            placeholder="Where are you going?"
+            placeholder={
+              showOptions.showAccommodation
+                ? 'Accommodtion Search'
+                : 'Where are you going?'
+            }
             onChange={handleChange}
           />
-          <input
-            type="date"
-            id="start_date"
-            value={formData.start_date}
-            placeholder="Check-in"
-            onChange={handleChange}
-          />
-          <input
-            type="date"
-            id="end_date"
-            value={formData.end_date}
-            placeholder="Check-out"
-            onChange={handleChange}
-          />
-          {formData.searchType === 'accommodation' && (
+
+          <div className="checkbox-group">
             <input
-              type="number"
-              id="numOfGuests"
-              value={formData.numOfGuests}
-              placeholder="Number of guests"
-              min="1"
-              onChange={handleChange}
+              type="checkbox"
+              id="showAccommodation"
+              checked={showOptions.showAccommodation}
+              onChange={handleCheckboxChange}
             />
+            <label htmlFor="showAccommodation"> Accommodation</label>
+            {/* <input
+              type="checkbox"
+              id="showDates"
+              checked={showOptions.showDates}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor="showDates"> Dates option</label> */}
+          </div>
+
+          {showOptions.showAccommodation && (
+            <div className="date-group">
+              <input
+                type="date"
+                id="start_date"
+                value={formData.start_date}
+                placeholder="Check-in"
+                onChange={handleChange}
+              />
+              <input
+                type="date"
+                id="end_date"
+                value={formData.end_date}
+                placeholder="Check-out"
+                onChange={handleChange}
+              />
+            </div>
           )}
-          <button type="submit">Search</button>
-          <button type="button" onClick={handleClear}>
-            Clear
-          </button>
+
+          <div className="button-group">
+            <button type="submit">TripBuddy Search</button>
+            <button type="button" className="clear-btn" onClick={handleClear}>
+              I am Feeling Lucky
+            </button>
+          </div>
         </form>
       </div>
     </div>

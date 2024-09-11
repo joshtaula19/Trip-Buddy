@@ -2,18 +2,21 @@ import LocationGrid from './LocationGrid-1'
 import { useState } from 'react'
 import useTrips from '../hooks/useTrip'
 import { useAuth0 } from '@auth0/auth0-react'
-import LoadingIndicator from './LoadingIndicator'
-
+import LoadingIndicator from './LoadingPlaceholder'
 
 export default function Itineraries() {
   //Placeholder Data
-  const { user, isAuthenticated ,isLoading:auth0Loading,getAccessTokenSilently} = useAuth0()
+  const {
+    user,
+    isAuthenticated,
+    isLoading: auth0Loading,
+    getAccessTokenSilently,
+  } = useAuth0()
 
   const auth0Id = user?.sub
-  
-  const { data, add ,isLoading:dataLoading} = useTrips(getAccessTokenSilently) //if auth0Id is undefined, pass '' to api
-  
- 
+
+  const { data, add, isLoading: dataLoading } = useTrips(getAccessTokenSilently) //if auth0Id is undefined, pass '' to api
+
   const [input, setInput] = useState(false)
   const [trip_name, setTrip_name] = useState('')
 
@@ -40,12 +43,14 @@ export default function Itineraries() {
     setTrip_name('')
     setInput(false)
   }
-  if(dataLoading || auth0Loading){<LoadingIndicator/>}
+  if (dataLoading || auth0Loading) {
+    ;<LoadingIndicator />
+  }
   if (isAuthenticated && data) {
     return (
       <>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2>Trips:</h2>
+          <h2 className="sub-title">Your Trips:</h2>
           <button onClick={handleAddInput}>➕</button>
 
           {input && (
@@ -63,7 +68,7 @@ export default function Itineraries() {
         {data.trips && data.trips.length > 0 ? (
           Object.keys(data.trips[0]).map((attraction) => (
             <div key={attraction}>
-              <h3>{attraction}</h3>
+              <h3 className="search-subtitle">{attraction}</h3>
               <LocationGrid data={data.trips[0][attraction]} />
             </div>
           ))

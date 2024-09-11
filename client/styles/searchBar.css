@@ -1,72 +1,126 @@
 .search-page {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 0px;
+  padding: 2rem;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 h1 {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  text-align: center;
 }
+
 .search-tabs {
   display: flex;
   margin-bottom: 20px;
 }
+
 .tab {
   padding: 10px 20px;
   border: none;
   background-color: #f0f0f0;
   cursor: pointer;
 }
+
 .tab.active {
   background-color: #007bff;
   color: white;
 }
+
 .search-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr; /* Single column layout */
+  gap: 20px; /* Increased gap between elements in the form */
+  justify-items: center; /* Center everything horizontally */
 }
-.search-form input {
-  flex: 1;
-  min-width: 200px;
+
+.search-form input[type='text'] {
+  width: 600px; /* Adjusted width for the search input */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  margin-bottom: 30px;
+}
+
+.date-group {
+  display: flex;
+  gap: 20px; /* Increased gap between date inputs */
+  justify-content: center; /* Center the date inputs */
+}
+
+.search-form input[type='date'] {
+  width: 150px; /* Width for date inputs */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-bottom: 30px;
 }
-.search-form button {
-  padding: 10px;
+
+.button-group {
+  display: flex;
+  gap: 20px; /* Increased gap between buttons */
+  justify-content: center; /* Center the buttons */
+}
+
+#searchForm input[type='date'] {
+  flex: 1 1 150px;
+}
+
+#searchForm button {
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
 }
+
+#searchForm button:hover {
+  background-color: #0056b3;
+}
+
+#searchForm button[type='button'] {
+  background-color: #6c757d;
+}
+
+#searchForm button[type='button']:hover {
+  background-color: #545b62;
+}
+
 .results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
+
 .result-card {
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
   position: relative;
 }
+
 .result-card img {
   width: 100%;
   height: 200px;
   object-fit: cover;
 }
+
 .result-card h3 {
   padding: 10px;
   margin: 0;
 }
+
 .result-card p {
   padding: 0 10px 10px;
   margin: 0;
 }
+
 .rating-overlay {
   position: absolute;
   top: 0;
@@ -80,7 +134,18 @@ h1 {
   color: white;
   font-size: 24px;
 }
-.star {
-  color: gold;
-  margin-right: 5px;
+
+.checkbox-group {
+  margin-bottom: 30px;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  #searchForm {
+    flex-direction: column;
+  }
+
+  #searchForm input,
+  #searchForm button {
+    width: 100%;
+  }
 }
