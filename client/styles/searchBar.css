@@ -38,7 +38,7 @@ h1 {
   justify-items: center; /* Center everything horizontally */
 }
 
-.search-form input[type="text"] {
+.search-form input[type='text'] {
   width: 600px; /* Adjusted width for the search input */
   padding: 10px;
   border: 1px solid #ccc;
@@ -52,7 +52,7 @@ h1 {
   justify-content: center; /* Center the date inputs */
 }
 
-.search-form input[type="date"] {
+.search-form input[type='date'] {
   width: 150px; /* Width for date inputs */
   padding: 10px;
   border: 1px solid #ccc;
@@ -66,17 +66,18 @@ h1 {
   justify-content: center; /* Center the buttons */
 }
 
-
 #searchForm input[type='date'] {
   flex: 1 1 150px;
 }
 
 #searchForm button {
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
 }
 
 #searchForm button:hover {
@@ -134,9 +135,9 @@ h1 {
   font-size: 24px;
 }
 
-.checkbox-group{
- margin-bottom: 30px;
- gap:20px;
+.checkbox-group {
+  margin-bottom: 30px;
+  gap: 20px;
 }
 @media (max-width: 768px) {
   #searchForm {

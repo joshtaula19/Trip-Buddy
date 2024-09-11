@@ -68,7 +68,7 @@ export default function Itineraries() {
         {data.trips && data.trips.length > 0 ? (
           Object.keys(data.trips[0]).map((attraction) => (
             <div key={attraction}>
-              <h3>{attraction}</h3>
+              <h3 className="search-subtitle">{attraction}</h3>
               <LocationGrid data={data.trips[0][attraction]} />
             </div>
           ))

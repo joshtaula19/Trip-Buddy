@@ -58,16 +58,19 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
 
     setShowOptions((prev) => ({ ...prev, [checkId]: checked })) // Show or hide date inputs based on checkbox
     if (checkId === 'accommodation') {
-      setFormData((prev) => ({ ...prev, searchType: checked ?'accommodation': 'attractions' }))
+      setFormData((prev) => ({
+        ...prev,
+        searchType: checked ? 'accommodation' : 'attractions',
+      }))
     }
   }
 
   return (
     <div className="search-page">
-      <h1>Plan Your Next Trip</h1>
+      <h1 className="search-subtitle">Plan Your Next Trip</h1>
 
       <div className="search-tabs">
-        <button
+        {/* <button
           className={`tab ${formData.searchType === 'accommodation' ? 'active' : ''}`}
           onClick={() => handleTabClick('accommodation')}
         >
@@ -78,7 +81,7 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
           onClick={() => handleTabClick('attractions')}
         >
           Attractions
-        </button>
+        </button> */}
       </div>
 
       <div className="search-form">
@@ -87,12 +90,16 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
             type="text"
             id="content"
             value={formData.content}
-            placeholder={showOptions.showAccommodation?'Accommodtion Search':"Where are you going?"}
+            placeholder={
+              showOptions.showAccommodation
+                ? 'Accommodtion Search'
+                : 'Where are you going?'
+            }
             onChange={handleChange}
           />
 
           <div className="checkbox-group">
-          <input
+            <input
               type="checkbox"
               id="showAccommodation"
               checked={showOptions.showAccommodation}
@@ -106,9 +113,8 @@ export default function SearchBar({ onSearch, onClearSearch }: SearchBarProps) {
               onChange={handleCheckboxChange}
             />
             <label htmlFor="showDates"> Dates option</label> */}
-            
           </div>
-          
+
           {showOptions.showAccommodation && (
             <div className="date-group">
               <input
