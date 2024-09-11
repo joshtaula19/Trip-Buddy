@@ -1,4 +1,3 @@
-
 import request from 'superagent'
 import { SearchData } from '../../models/search'
 // import { Attraction } from '../../models/attraction'
@@ -15,7 +14,7 @@ export async function Search(search: SearchData) {
         searchType === 'accommodation'
           ? '/accommodation'
           : '/activities-by-city' // Correct endpoint based on searchType
-      console.log('endpointtttttttttt:', endpoint)
+      //console.log('endpointtttttttttt:', endpoint)
       const res = await request.get(rootUrl + '/attractions' + endpoint).query({
         // Use .query() for query parameters
         content,
@@ -23,11 +22,10 @@ export async function Search(search: SearchData) {
         end_date,
         numOfGuests,
       })
-      console.log('query return:', res.body)
+      //console.log('query return:', res.body)
       return res.body
     } catch (error) {
       throw new Error('Sorry, cannot find anything')
     }
   }
 }
-
